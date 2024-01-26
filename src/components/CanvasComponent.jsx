@@ -1,52 +1,38 @@
-import { useEffect, useRef  } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { fabric } from 'fabric';
-import { Button} from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
+import Toolbar from './Toolbar';
 
-
-function CanvasComponent() {
-
+function useFabricCanvas(id) {
     const canvasRef = useRef(null);
 
-    const canvasClear = () => {
-        const canvas = canvasRef.current;
-        if (canvas) {
-            console.log(canvas.clear())
-            canvas.isDrawingMode = false;
-        }
-    }
+    useEffect(() => {
+        const canvas = new fabric.Canvas(id, {
+            backgroundColor: 'white',
+            isDrawingMode: true,
+        });
 
+        canvasRef.current = canvas;
 
+        return () => {
+            canvas.dispose();
+        };
+    }, [id]);
 
-        useEffect(() => {
-            const canvas = new fabric.Canvas('my-fabric-canvas', {
-                backgroundColor: 'white',
-                isDrawingMode: true
-            });
+    return canvasRef;
+}
 
-            canvasRef.current = canvas;
-            canvas.renderAll();
-        }, []);
+function CanvasComponent() {
+    const canvasRef = useFabricCanvas('my-fabric-canvas');
 
-
-        return (
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100vh'
-            }}>
-
-                <canvas
-                    id="my-fabric-canvas"
-                    width="900"
-                    height="600">
-                </canvas>
-                <div>
-                    <Button onClick={canvasClear}> Clear </Button>
-                </div>
-            </div>
-        )
-
+    return (
+        <Center h="80vh">
+            <Box direction="column" alignItems="center" border="2px solid" borderColor="grey">
+                <canvas id="my-fabric-canvas" width="800"  height="550"></canvas>
+            </Box>
+            <Toolbar canvasRef={canvasRef} />
+        </Center>
+    );
 }
 
 export default CanvasComponent;
