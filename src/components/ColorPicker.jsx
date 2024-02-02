@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { ChromePicker } from 'react-color';
-import {Button } from '@chakra-ui/react';
+import {Box, Button, Image } from '@chakra-ui/react';
+import colorIcon from './../assets/color.svg';
 
-function ButtonExample() {
+function ButtonExample({ canvasRef }) {
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [color, setColor] = useState("#fff");
 
@@ -15,8 +16,9 @@ function ButtonExample() {
   };
 
   const handleChangeComplete = (color) => {
+    const canvas = canvasRef.current;
     setColor(color.hex);
-    console.log(color.hex)
+    canvas.freeDrawingBrush.color = color.hex;
   };
 
   const popover = {
@@ -25,17 +27,9 @@ function ButtonExample() {
     bottom: '35%', // Décale la div au-dessus du bouton
   };
 
-  const cover = {
-    position: 'fixed',
-    top: '0px',
-    right: '0px',
-    bottom: '0px',
-    left: '0px',
-  };
-
   return (
-    <div>
-      <Button colorScheme="linkedin" onClick={handleClick}>Pick Color</Button>
+    <Box m={2} >
+      <Button p={2} colorScheme="linkedin" onClick={handleClick}><Image src={colorIcon}></Image></Button>
       {displayColorPicker ? (
         <div style={ popover }>
           <div style={{ position: 'fixed', top: '0px', right: '0px', bottom: '0px', left: '0px' }} onClick={handleClose}/>
@@ -45,7 +39,7 @@ function ButtonExample() {
           />
         </div>
       ) : null}
-    </div>
+    </Box>
   );
 }
 

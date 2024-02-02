@@ -9,11 +9,11 @@ function useFabricCanvas(id) {
     useEffect(() => {
         const canvas = new fabric.Canvas(id, {
             backgroundColor: 'white',
-            isDrawingMode: true,
+            isDrawingMode: false,
         });
 
         canvasRef.current = canvas;
-
+        console.log(canvas);
         return () => {
             canvas.dispose();
         };
@@ -28,7 +28,7 @@ function CanvasComponent() {
     return (
         <Center h="80vh">
             <Box direction="column" alignItems="center" border="2px solid" borderColor="grey">
-                <canvas id="my-fabric-canvas" width="1200"  height="550"></canvas>
+                <canvas id="my-fabric-canvas" width="1000"  height="550"></canvas>
             </Box>
             <Toolbar canvasRef={canvasRef} />
         </Center>

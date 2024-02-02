@@ -1,7 +1,9 @@
 
 import './App.css'
-import CanvasComponent from "./components/CanvasComponent.jsx";
+import CanvasComponent from "./components/Drawer.jsx";
 import Navbar from './components/NavBar.jsx';
+
+
 
 function App() {
 
@@ -13,6 +15,7 @@ function App() {
         <div>
             <Navbar />
             <CanvasComponent></CanvasComponent>
+            
         </div>
     );
 }
