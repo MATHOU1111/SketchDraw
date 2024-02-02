@@ -1,27 +1,71 @@
-import { Box, Button, Flex, Image } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, useDisclosure } from "@chakra-ui/react";
 import { useState } from 'react';
 
 import DeleteIcon from './../assets/delete.svg';
 import DrawIcon from './../assets/draw.svg';
 import brush from './../assets/paint.svg';
+import ButtonExample from "c:/workflow/SketchDraw/src/components/colorPicker"
 
-import {
-    Popover,
-    PopoverTrigger,
-    PopoverContent,
-    PopoverBody,
-    PopoverArrow,
-    Portal,
-    Slider,
-    SliderTrack,
-    SliderFilledTrack,
-    SliderThumb,
-  } from '@chakra-ui/react'
-
+import {Popover, PopoverTrigger, PopoverContent, PopoverBody, PopoverArrow, Slider, SliderTrack, SliderFilledTrack, SliderThumb} from '@chakra-ui/react';
 
 function Toolbar({ canvasRef }) {
   const [drawingState, setDrawingState] = useState(true);
-  const [sizePaint, setSizePaint] = useState(1); // Changed setsizePaint to setSizePaint
+  const [sizePaint, setSizePaint] = useState(1);
+  const [color, setColor] = useState('#000'); // État pour gérer la couleur sélectionnée
+  const { isOpen, onToggle } = useDisclosure(); // Pour gérer l'affichage du sélecteur de couleur
+
+
+
+
+
+  
+  // Fonction pour changer la couleur
+  const handleChangeComplete = (color) => {
+    setColor(color.hex);
+    const canvas = canvasRef.current;
+    if (canvas.isDrawingMode) {
+      canvas.freeDrawingBrush.color = color.hex;
+    }
+  };
+
+
+  function ColorPicker(){
+  return (
+    <Box className="lol">
+    </Box>
+  )
+
+  
+}
+
+function SliderSize(){
+  return (
+    <Button m={2} colorScheme="teal">
+    <Popover>
+        <PopoverTrigger>
+            <Image src={brush} py={4}></Image>
+        </PopoverTrigger>
+            <PopoverContent>
+            <PopoverArrow />
+            <PopoverBody>
+                <Slider
+                    aria-label='slider-ex-3'
+                    defaultValue={sizePaint}
+                    min={-10}
+                    max={12}
+                    onChange={handleSliderChange} // Add this onChange handler
+                >
+                    <SliderTrack>
+                        <SliderFilledTrack />
+                    </SliderTrack>
+                    <SliderThumb />
+                </Slider>
+            </PopoverBody>
+            </PopoverContent>
+    </Popover>
+</Button>
+  )
+}
 
 
   // Clear
@@ -50,40 +94,18 @@ function Toolbar({ canvasRef }) {
     }
   };
 
+
+
   return (
     <Flex direction="row" borderRadius={4} border="2px" borderColor="grey" position="fixed" bottom="0" p={2} px={60} backgroundColor="white">
         <Box>
-            <Button m={2} colorScheme="teal">
-                <Popover>
-                    <PopoverTrigger>
-                        <Image src={brush} py={4}></Image>
-                    </PopoverTrigger>
-                    <Portal>
-                        <PopoverContent>
-                        <PopoverArrow />
-                        <PopoverBody>
-                            <Slider
-                                aria-label='slider-ex-3'
-                                defaultValue={sizePaint}
-                                min={-10}
-                                max={12}
-                                onChange={handleSliderChange} // Add this onChange handler
-                            >
-                                <SliderTrack>
-                                    <SliderFilledTrack />
-                                </SliderTrack>
-                                <SliderThumb />
-                            </Slider>
-                        </PopoverBody>
-                        </PopoverContent>
-                    </Portal>
-                </Popover>
-            </Button>
+          <SliderSize />
         </Box>
         <Box>
             <Button m={2} colorScheme="teal" onClick={drawingModeChange} >
                 <Image src={DrawIcon}></Image>
             </Button>
+            <ButtonExample />
         </Box>
         <Box>
             <Button m={2} colorScheme="teal" onClick={canvasClear}>
