@@ -29,14 +29,7 @@ function Toolbar({ canvasRef }) {
   };
 
 
-  function ColorPicker(){
-  return (
-    <Box className="lol">
-    </Box>
-  )
 
-  
-}
 
 function SliderSize(){
   return (
@@ -105,7 +98,7 @@ function SliderSize(){
             <Button m={2} colorScheme="teal" onClick={drawingModeChange} >
                 <Image src={DrawIcon}></Image>
             </Button>
-            <ButtonExample />
+            <ButtonExample color={color} onChangeComplete={handleChangeComplete} />
         </Box>
         <Box>
             <Button m={2} colorScheme="teal" onClick={canvasClear}>
