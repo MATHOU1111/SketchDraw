@@ -8,7 +8,7 @@ import download from './../assets/download.svg';
 import activeSelectionDeleteIcon from './../assets/activeSelectionDel.svg'
 
 
-import ButtonExample from "c:/workflow/SketchDraw/src/components/colorPicker"
+import ButtonExample from "c:/workflow/SketchDraw/frontend/src/components/colorPicker"
 
 import {Popover, PopoverTrigger, PopoverContent, PopoverBody, PopoverArrow, Slider, SliderTrack, SliderFilledTrack, SliderThumb} from '@chakra-ui/react';
 

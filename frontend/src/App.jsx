@@ -1,23 +1,19 @@
-
-import './App.css'
-import CanvasComponent from "./components/Drawer.jsx";
-import Navbar from './components/NavBar.jsx';
-
-
+import Home from "./pages/home.jsx";
+import Editor from "./pages/editor.jsx";
+import { Routes, Route } from 'react-router';
+import {BrowserRouter } from 'react-router-dom'
 
 function App() {
-
-
-
-
-
     return (
         <div>
-            <Navbar />
-            <CanvasComponent></CanvasComponent>
-            
+            <BrowserRouter>
+                <Routes>
+                    <Route path="" element={<Home />} />
+                    <Route path="editor" element={<Editor />} />
+                </Routes>
+             </BrowserRouter>
         </div>
-    );
-}
+    )
+}   
 
 export default App;
