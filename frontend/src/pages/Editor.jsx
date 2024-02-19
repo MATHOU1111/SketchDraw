@@ -1,5 +1,5 @@
 
-import Drawer from "./../components/Drawer.jsx";
+import Drawer from "../components/Editor.jsx";
 import Navbar from "./../components/NavBar.jsx"
 
 

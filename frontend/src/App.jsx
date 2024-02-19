@@ -9,7 +9,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="" element={<Home />} />
-                    <Route path="editor" element={<Editor />} />
+                    <Route path="editor/:idCanvas" element={<Editor />} />
                 </Routes>
              </BrowserRouter>
         </div>

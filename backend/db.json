@@ -1,13 +1,77 @@
 {
-    "posts": [
-      { "id": "1", "title": "a title", "views": 100 },
-      { "id": "2", "title": "another title", "views": 200 }
-    ],
-    "comments": [
-      { "id": "1", "text": "a comment about post 1", "postId": "1" },
-      { "id": "2", "text": "another comment about post 1", "postId": "1" }
-    ],
-    "profile": {
-      "name": "typicode"
+  "canvas": [
+    {
+      "id": "mUQjEm0O",
+      "name": "",
+      "objects": [
+        {
+          "pages": [{
+          },
+            {
+
+            },
+            {}]
+        }
+      ]
+    },
+    {
+      "id": "mUQjEm0O",
+      "name": "",
+      "objects": [
+        {
+          "pages": []
+        }
+      ]
+    },
+    {
+      "id": "K4UvYdPP",
+      "name": "",
+      "objects": {
+        "pages": []
+      }
+    },
+    {
+      "id": "K4UvYdPP",
+      "name": "",
+      "objects": {
+        "pages": []
+      }
+    },
+    {
+      "id": "Y9CKAt1j",
+      "name": "",
+      "objects": {
+        "pages": []
+      }
+    },
+    {
+      "id": "y3KjnhGq",
+      "name": "",
+      "objects": {
+        "pages": []
+      }
+    },
+    {
+      "id": "RIDj7fCB",
+      "name": "",
+      "objects": {
+        "pages": []
+      }
     }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": "1"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
   }
+}
