@@ -114,10 +114,10 @@ const activeSelectionDelete = () =>{
         fontSize: 20, // Taille de la police
         fill: 'black' // Couleur du texte
       });
-  
+
+      console.log(canvas)
       canvas.add(text);
       canvas.renderAll();
-      console.log(canvas)
     }
   };
 

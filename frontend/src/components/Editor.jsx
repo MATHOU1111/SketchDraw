@@ -7,17 +7,40 @@ import { useGetRequest } from "../utils/hooks/useGetRequest.js";
 
 function useFabricCanvas(dataLoaded, data) {
     const canvasRef = useRef(null);
+    const [pageNumber, setPageNumber] = useState(0);
+
 
     useEffect(() => {
         if (dataLoaded && data) {
             const canvas = new fabric.Canvas(canvasRef.current, {
                 backgroundColor: 'white',
                 isDrawingMode: false,
-                objects: data.objects
-            });
+                objects: data.pages[pageNumber].objects
+            })
+
+            if(data.pages[pageNumber].objects.length > 1){
+               for(let object of data.pages[pageNumber].objects){
+                   console.log(object)
+                   /*
+                   const fabricObj = fabric[object.type].fromObject(object);
+                   canvas.add(fabricObj);
+
+                    */
+
+
+               }
+            }
+
+            console.log(data.pages)
+            console.log(data.pages.length)
+            console.log(data.pages[pageNumber].objects)
+            console.log(data.pages[pageNumber+1].objects)
             console.log(canvas)
+            canvasRef.current = canvas;
+            canvas.renderAll();
+
         }
-    }, [dataLoaded]);
+    }, [dataLoaded, data , pageNumber]);
 
     return canvasRef;
 }
@@ -32,7 +55,6 @@ function CanvasComponent() {
 
     useEffect(() => {
         if (data !== null) {
-            console.log(data.objects);
             setDataLoaded(true);
         }
     }, [data]);
