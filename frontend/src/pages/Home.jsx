@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import Navbar from './../components/NavBar.jsx';
-import { useGetRequest } from "../utils/hooks/useGetRequest";
 import { usePostCanva } from "../utils/hooks/useNewCanva.js";
 import { Button } from "@chakra-ui/react";
 import canvasSkeleton from "../utils/data/canvas.js";
+import DrawList from "../components/DrawList.jsx";
 
 function Home() {
 
-    const { data: canvasList, loadingGet, errorGet } = useGetRequest("http://localhost:3000/canvas");
     const { dataPost, loadingPost, errorPost, postData } = usePostCanva("http://localhost:3000/canvas");
     const navigate = useNavigate();
 
@@ -26,7 +25,8 @@ function Home() {
     return (
         <div>
             <Navbar />
-            <Button onClick={newCanvas}>Créer un nouveau dessin</Button>
+            <Button m={4} onClick={newCanvas}>Nouveau</Button>
+            <DrawList />
         </div>
     );
 }

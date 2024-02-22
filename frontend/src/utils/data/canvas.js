@@ -16,13 +16,15 @@ function generateRandomId() {
 }
 
 let id = generateRandomId();
+let id1 = generateRandomId();
 
 let canvasSkeleton = {
     "id": id,
     "name": "",
-    "objects": {
-        "pages": []
-    }
+    "pages": [{
+        id: id1,
+        objects : []
+    }]
 };
 
 export default canvasSkeleton;
