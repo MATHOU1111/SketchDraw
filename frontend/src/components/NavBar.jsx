@@ -1,10 +1,17 @@
 import React from 'react';
-import {Center } from '@chakra-ui/react';
+import {Button, Center} from '@chakra-ui/react';
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+    const navigate = useNavigate();
+
+    const navHome = () => {
+        navigate("/")
+    }
+
     return (
         <Center bg="white">
-                <h1 style={{color:'black' , padding: "20px"}}>SKETCHDRAW</h1>
+                <Button onClick={navHome} style={{color:'black' , padding: "20px"}}>SKETCHDRAW</Button>
         </Center>
 
     );

@@ -1,4 +1,3 @@
-
 // Génération de l'ID :
 function generateRandomId() {
     // Longueur de l'ID souhaitée
@@ -16,15 +15,27 @@ function generateRandomId() {
 }
 
 let id = generateRandomId();
-let id1 = generateRandomId();
+let idPage = generateRandomId();
+let idSinglePage = generateRandomId();
 
 let canvasSkeleton = {
     "id": id,
-    "name": "",
-    "pages": [{
-        id: id1,
-        objects : []
-    }]
+    "name": "Sans titre",
+    "pages": [
+        {
+            "id": idPage,
+            "name": "Sans titre",
+            "objects": []
+        }
+    ]
 };
 
-export default canvasSkeleton;
+
+let pageSkeleton = {
+    "id": idSinglePage,
+    "name": "Sans titre",
+    "objects": []
+
+}
+
+export default { canvasSkeleton , pageSkeleton};

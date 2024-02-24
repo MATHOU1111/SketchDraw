@@ -13,9 +13,9 @@ function Home() {
 
     const newCanvas = async () => {
         try {
-            const response = await postData(canvasSkeleton);
+            const response = await postData(canvasSkeleton.canvasSkeleton);
             if(response.id){
-                navigate(`editor/${response.id}`);
+                navigate(`editor/${response.id}/?page=${response.pages[0].id}`);
             }
         } catch (error) {
             console.error('Erreur lors de la création du canevas :', error);
