@@ -1,7 +1,4 @@
-
 import { fabric } from 'fabric';
-
-
 
 const addShape = (shapeType, canvas) => {
     if (!canvas) return;
@@ -67,5 +64,16 @@ const handleDownload = (canvas) => {
     link.click();
 }
 
+const activeSelectionDelete = (canvas) => {
+    if (canvas && canvas._activeObject) {
+        const activeSelection = canvas._activeObject;
+        console.log(activeSelection._objects);
+        for (const object of activeSelection._objects) {
+            canvas.remove(object);
+        }
+        canvas.renderAll();
+    }
+}
 
-export { addShape , addText , handleDownload};
+
+export { addShape , addText , handleDownload, activeSelectionDelete};

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const usePutRequest = (url) =>  {
-    const [loading, setLoading] = useState(false);
+    const [loadingPut, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
 
@@ -33,7 +33,7 @@ const usePutRequest = (url) =>  {
         }
     };
 
-    return { loading, error, success, fetchData };
+    return { loadingPut, error, success, fetchData };
 };
 
 export default usePutRequest;

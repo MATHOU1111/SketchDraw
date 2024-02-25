@@ -1,22 +1,22 @@
-import { useLocation, useParams } from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import usePutRequest from "./usePutRequest.js";
-import { useEffect, useRef, useState } from "react";
-import { fabric } from "fabric";
+import {useEffect, useRef, useState} from "react";
+import {fabric} from "fabric";
+import canvas from "../data/canvas.js";
 
 function useFabricCanvas(dataLoaded, data) {
     // Récupération des Ids de l'URL
-    const { idCanvas } = useParams();
+    const {idCanvas} = useParams();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const idPage = searchParams.get('page');
 
     // hook
-    const { loading, error, success, fetchData } = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
+    const {loadingPut, error, success, fetchData} = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
 
     // Référence du canvas, important pour l'utilisation de la toolbar
     let canvasRef = useRef(null);
     const [pageNumber, setPageNumber] = useState(0);
-
 
 
     // Affichage du canvas dynamiquement
@@ -36,7 +36,6 @@ function useFabricCanvas(dataLoaded, data) {
             const canvas = new fabric.Canvas('my-unique-canvas', {
                 backgroundColor: 'white', isDrawingMode: false, objects: objects
             });
-
 
 
             // Définition de tous les types d'objets qui peuvent entrer
@@ -70,7 +69,6 @@ function useFabricCanvas(dataLoaded, data) {
                 }
             }
 
-            canvas.renderAll();
             const sendData = (e) => {
                 let obj = e.target;
                 console.log('Objet modifié: ', obj);
@@ -84,7 +82,6 @@ function useFabricCanvas(dataLoaded, data) {
                         console.error("Une erreur s'est produite lors de la requête :", error);
                     });
             }
-
             canvas.on('object:modified', function (e) {
                 sendData(e);
             });
@@ -97,6 +94,7 @@ function useFabricCanvas(dataLoaded, data) {
                 sendData(e);
             });
 
+            canvas.renderAll();
             canvasRef.current = canvas;
             return () => {
                 canvas.dispose(); // Nettoie et supprime l'instance du canvas
@@ -104,7 +102,7 @@ function useFabricCanvas(dataLoaded, data) {
         }
     }, [dataLoaded, data, pageNumber, idPage]);
 
-    return { canvasRef, pageNumber };
+    return {canvasRef, pageNumber, loadingPut, success};
 }
 
 export default useFabricCanvas;

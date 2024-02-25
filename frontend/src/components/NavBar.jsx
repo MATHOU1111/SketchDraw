@@ -12,7 +12,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     return (
-        <Flex as="nav" align="center" boxShadow='base' justify="space-between" wrap="wrap" padding="1.1rem"
+        <Flex as="nav" name="nav-bar" align="center" boxShadow='base' justify="space-between" wrap="wrap" padding="1.1rem"
               bg={useColorModeValue('gray.500', 'gray.900')} color={useColorModeValue('gray.600', 'white')}>
             <Flex>
                 <Flex m={4}>

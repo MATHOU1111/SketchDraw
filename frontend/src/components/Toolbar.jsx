@@ -1,13 +1,22 @@
-import {Box, Button, Flex, Image, useDisclosure, SlideFade} from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Flex,
+    Image,
+    Text,
+    useDisclosure,
+    Divider,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem
+} from "@chakra-ui/react";
 import {useState} from 'react';
-
 import DeleteIcon from './../assets/delete.svg';
 import DrawIcon from './../assets/draw.svg';
 import brush from './../assets/paint.svg';
-import download from './../assets/download.svg';
 import activeSelectionDeleteIcon from './../assets/activeSelectionDel.svg'
-import {addShape , addText , handleDownload} from "../utils/fabricUtils.js";
-
+import {addShape, addText, handleDownload, activeSelectionDelete} from "../utils/fabricUtils.js";
 import ButtonExample from "c:/workflow/sketchDraw/SketchDraw/frontend/src/components/colorPicker"
 
 import {
@@ -60,20 +69,8 @@ function Toolbar({canvasRef}) {
         )
     }
 
-    const activeSelectionDelete = () => {
-        const canvas = canvasRef.current
-        if (canvas && canvas._activeObject) {
-            const activeSelection = canvas._activeObject;
-            console.log(activeSelection._objects);
-            for (const object of activeSelection._objects) {
-                canvas.remove(object);
-            }
-            canvas.renderAll();
-        }
-    }
 
-
-    // Clear
+    // A REFAIRE
     const canvasClear = () => {
         if (canvas) {
             canvas.clear();
@@ -96,12 +93,10 @@ function Toolbar({canvasRef}) {
         }
     };
 
-
     // Telechargement du canva
     const downloadCanva = () => {
         handleDownload(canvas)
     }
-
 
     // Ajout d'une zone de texte
     const addTextToC = () => {
@@ -120,70 +115,66 @@ function Toolbar({canvasRef}) {
         addShape("triangle", canvas)
     }
 
+    const deleteSelection = () => {
+        activeSelectionDelete(canvas);
+    }
 
 
     return (
         <>
-            <Button onClick={onToggle} style={{bottom: '0', position: 'fixed'}} colorScheme="blue" m={4}>Toggle
-                Toolbar</Button>
-            <SlideFade in={isOpen} offsetX='-200px'
-                       style={{position: 'fixed', left: 0, height: '50%', zIndex: 'overlay'}}>
-                <Flex direction="column" borderRadius={4} position="fixed" rounded='md' shadow='md' p={8}
-                      backgroundColor="white">
-                    <Box>
+            <Box name="Barre d'outil" w={"90%"} m={2} rounded='md' shadow='md'>
+                <Flex name="menu-top" borderRadius={4} w={"60%"}>
+                    <Menu isLazy>
+                            <MenuButton name="file-menu" p={2} _hover={{bg: "#E7E7E7", color: "black"}} color="white">
+                                Fichier</MenuButton>
+                            <MenuList>
+                                <MenuItem>New Window</MenuItem>
+                                <MenuItem>Open Closed Tab</MenuItem>
+                                <MenuItem>Open File</MenuItem>
+                                <MenuItem onClick={downloadCanva}><Text>Download</Text></MenuItem>
+                            </MenuList>
+                    </Menu>
+                        <Menu isLazy>
+                            <Box name="insert-menu">
+                                <MenuButton p={2} _hover={{bg: "#E7E7E7", color: "black"}} color="white">Insérer</MenuButton>
+                                <MenuList>
+                                    <MenuItem onClick={addSquare}><Text>Square</Text></MenuItem>
+                                    <MenuItem onClick={addCircle}><Text colorScheme="linkedin">Circle</Text>
+                                    </MenuItem>
+                                    <MenuItem onClick={addTriangle}><Text colorScheme="linkedin">Triangle</Text>
+                                    </MenuItem>
+                                    <MenuItem onClick={addTextToC}><Text colorScheme="linkedin">Text area</Text>
+                                    </MenuItem>
+                                </MenuList>
+                            </Box>
+                        </Menu>
+                </Flex>
+                <Divider name="divider" />
+                <Flex name="menu-bottom">
+                    <Box name="drawing-mode">
                         <Button m={2} p={2} style={{backgroundColor: drawingState ? 'red' : 'green'}}
                                 onClick={drawingModeChange}>
                             <Image src={DrawIcon}/>
                         </Button>
                     </Box>
-                    <Box>
-                        <SliderSize/>
+                    <Box name="pen-size">
+                        <SliderSize />
                     </Box>
-
-                    <Box>
+                    <Box name="color">
                         <ButtonExample canvasRef={canvasRef}/>
                     </Box>
-
-                    <Box>
-                        <Button m={2} p={2} colorScheme="linkedin" onClick={addTextToC}>
-                            T
-                        </Button>
-                    </Box>
-                    <Box>
-                        <Button m={2} p={2} colorScheme="linkedin" onClick={addSquare}>
-                            S
-                        </Button>
-                    </Box>
-                    <Box>
-                        <Button m={2} p={2} colorScheme="linkedin" onClick={addCircle}>
-                            R
-                        </Button>
-                    </Box>
-                    <Box>
-                        <Button m={2} p={2} colorScheme="linkedin" onClick={addTriangle}>
-                            R
-                        </Button>
-                    </Box>
-
-                    <Box>
-                        <Button m={2} p={2} colorScheme="linkedin" onClick={activeSelectionDelete}>
+                    <Box name="delete-active-selection">
+                        <Button m={2} p={2} colorScheme="linkedin" onClick={deleteSelection}>
                             <Image src={activeSelectionDeleteIcon}></Image>
                         </Button>
                     </Box>
-
-                    <Box>
-                        <Button m={2} p={2} colorScheme="linkedin" onClick={downloadCanva}>
-                            <Image src={download}></Image>
-                        </Button>
-                    </Box>
-                    <Box>
+                    <Box name="clear-canvas">
                         <Button m={2} p={2} colorScheme="linkedin" onClick={canvasClear}>
                             <Image src={DeleteIcon}></Image>
                         </Button>
-
                     </Box>
                 </Flex>
-            </SlideFade>
+            </Box>
         </>
     );
 }

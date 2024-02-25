@@ -1,10 +1,10 @@
 import React from 'react';
 import PagesItem from "./PagesItem.jsx";
 import {Box} from "@chakra-ui/react";
-import {useNavigate} from "react-router-dom";
+
 
 const PagesList = ({ data, switchPage  }) => {
-    const navigate = useNavigate();
+
 
 
     return (

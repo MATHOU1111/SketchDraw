@@ -1,21 +1,25 @@
 import React, {useEffect, useState} from 'react';
+import {fabric} from "fabric";
 import Toolbar from './Toolbar';
 import {useParams, useNavigate} from 'react-router-dom';
 import {useGetRequest} from "../utils/hooks/useGetRequest.js";
 import usePutRequest from "../utils/hooks/usePutRequest.js";
 import canvasSkeleton from "../utils/data/canvas.js";
-import {Button, Box, Center, Spinner, Input, Flex} from '@chakra-ui/react'
+import {Button, Box, Center, Spinner, Input, Flex, Text} from '@chakra-ui/react'
 import useFabricCanvas from "../utils/hooks/useFabricCanvas.js";
 import PagesList from "./PagesList.jsx";
+import canvas from "../utils/data/canvas.js";
 
 const CanvasComponent = () => {
     // differentes importations de hooks etc
     const navigate = useNavigate();
     const {idCanvas} = useParams();
-    const {data, loading} = useGetRequest(`http://localhost:3000/canvas/${idCanvas}`);
-    const {fetchData} = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
 
-    // page du canva
+    const {data, loading} = useGetRequest(`http://localhost:3000/canvas/${idCanvas}`);
+
+    const {loadingPut, error, success, fetchData} = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
+
+    // Les différents states
     const [pages, setPages] = useState([]);
 
     const [drawName, setDrawName] = useState("");
@@ -24,6 +28,7 @@ const CanvasComponent = () => {
     const [dataLoaded, setDataLoaded] = useState(false);
 
     const canvasRef = useFabricCanvas(dataLoaded, data);
+
 
     // on récupère les données du canva !
     useEffect(() => {
@@ -80,9 +85,6 @@ const CanvasComponent = () => {
         navigate(`?page=${data.pages[temp - 1].id}`);
     };
 
-    const switchPage = (page) => {
-        navigate(`?page=${page.id}`);
-    };
 
     return (
         <>
@@ -92,25 +94,34 @@ const CanvasComponent = () => {
                 </Center>
             ) : (
                 <>
-                    <Box w={"40%"}>
-                        <Box p={"4"}>
+                    <Flex name="drawer-name">
+                        <Box  w={"20%"} p={"4"}>
                             <Input placeholder="Nom de votre dessin" defaultValue={drawName} onBlur={drawerNameChange}/>
                         </Box>
+                        {loadingPut || canvasRef.loadingPut ? (
+                            <Text mt={6}>Enregistrement des changements ...</Text>
+                        ) : (
+                            success || canvasRef.success ? (
+                                <Text mt={6}>Changements sauvegardés</Text>
+                            ) : (
+                                <Text m={6}></Text>
+                            )
+                        )}
                         {/*                          <Box p={"4"}>
                             <Input placeholder="Nom de la page" value={pageName}
                                    onChange={(event) => setPageName(event.target.value)} onBlur={pageNameChange}/>
                         </Box> */}
-                    </Box>
-                    <Flex>
-                        <Box overflowY="scroll" h="565px">
+                    </Flex>
+                    <Toolbar canvasRef={canvasRef.canvasRef}/>
+                    <Flex name="editor">
+                        <Box name="pages-section" overflowY="scroll" h="565px">
                             <Button m={4} onClick={addPage}>Ajouter une page</Button>
-                            <PagesList switchPage={switchPage} data={pages}/>
+                            <PagesList data={pages}/>
                         </Box>
-                        <Center h="60vh">
+                        <Center name="canvas-container" h="60vh">
                             <Box direction="column" alignItems="center" border="2px solid" borderColor="grey">
                                 <canvas id="my-unique-canvas" width="1000" height="550"></canvas>
                             </Box>
-                            <Toolbar canvasRef={canvasRef.canvasRef}/>
                         </Center>
                     </Flex>
                 </>
