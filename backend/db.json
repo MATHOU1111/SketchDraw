@@ -1,37 +1,11 @@
 {
   "canvas": [
     {
-      "id": "roSqI6eC",
+      "id": "3SWCRBWx",
       "name": "Sans titre",
       "pages": [
         {
-          "id": "Utnnnq5r",
-          "name": "Sans titre",
-          "objects": []
-        },
-        {
-          "id": "zN0bS9mf",
-          "name": "Sans titre",
-          "objects": []
-        },
-        {
-          "id": "HTUwwOie",
-          "name": "Sans titre",
-          "objects": []
-        },
-        {
-          "id": "WzRdAKjH",
-          "name": "Sans titre",
-          "objects": []
-        }
-      ]
-    },
-    {
-      "id": "cOtdohM7",
-      "name": "Sans titre",
-      "pages": [
-        {
-          "id": "KujCCL5C",
+          "id": "0Hm5JcDC",
           "name": "Sans titre",
           "objects": [
             {
@@ -39,8 +13,8 @@
               "version": "5.3.0",
               "originX": "left",
               "originY": "top",
-              "left": 690,
-              "top": 286.41,
+              "left": 146,
+              "top": 338,
               "width": 200,
               "height": 22.6,
               "fill": "black",
@@ -53,7 +27,7 @@
               "strokeUniform": false,
               "strokeMiterLimit": 4,
               "scaleX": 1,
-              "scaleY": 9.11,
+              "scaleY": 1,
               "angle": 0,
               "flipX": false,
               "flipY": false,
@@ -69,7 +43,7 @@
               "fontFamily": "Times New Roman",
               "fontWeight": "normal",
               "fontSize": 20,
-              "text": "hghjghj",
+              "text": "Votre texte ici",
               "underline": false,
               "overline": false,
               "linethrough": false,
@@ -90,12 +64,32 @@
           ]
         },
         {
-          "id": "1F8YBk5L",
+          "id": "itdztxcrY",
           "name": "Sans titre",
           "objects": []
         },
         {
-          "id": "9R5fPybE",
+          "id": "itztgxcrY",
+          "name": "Sans titre",
+          "objects": []
+        },
+        {
+          "id": "ituztxcrY",
+          "name": "Sans titre",
+          "objects": []
+        },
+        {
+          "id": "ImoDHyetI",
+          "name": "Sans titre",
+          "objects": []
+        },
+        {
+          "id": "VCjEErmhR",
+          "name": "Sans titre",
+          "objects": []
+        },
+        {
+          "id": "VCjEkErhR",
           "name": "Sans titre",
           "objects": []
         }

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "npm-run-all --parallel start:frontend start:backend",
-    "start:frontend" : "npm run dev",
+    "start:frontend": "npm run dev",
     "start:backend": "cd.. && cd backend && npx json-server db.json",
     "dev": "vite",
     "build": "vite build",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@chakra-ui/button": "^2.1.0",
+    "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
