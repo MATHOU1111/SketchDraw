@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ChromePicker } from 'react-color';
 import {Box, Button, Image } from '@chakra-ui/react';
-import colorIcon from './../assets/color.svg';
+import colorIcon from './../../assets/color.svg';
 
 function ButtonExample({ canvasRef }) {
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
