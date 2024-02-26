@@ -9,17 +9,15 @@ import {
     Menu,
     MenuButton,
     MenuList,
-    MenuItem,
-    Tooltip
+    MenuItem
 } from "@chakra-ui/react";
-import { useState } from 'react';
+import {useState} from 'react';
 import DeleteIcon from './../assets/delete.svg';
 import DrawIcon from './../assets/draw.svg';
 import brush from './../assets/paint.svg';
 import activeSelectionDeleteIcon from './../assets/activeSelectionDel.svg'
-import { addShape, addText, handleDownload, activeSelectionDelete } from "../utils/fabricUtils.js";
-import ButtonExample from "./toolbar-components/ColorPicker.jsx"
-import CanvaButton from "./toolbar-components/CanvaButton.jsx";
+import {addShape, addText, handleDownload, activeSelectionDelete} from "../utils/fabricUtils.js";
+import ButtonExample from "c:/workflow/sketchDraw/SketchDraw/frontend/src/components/colorPicker"
 
 import {
     Popover,
@@ -33,10 +31,10 @@ import {
     SliderThumb
 } from '@chakra-ui/react';
 
-function Toolbar({ canvasRef }) {
-    const [drawingState, setDrawingState] = useState(true);
+function Toolbar({canvasRef}) {
+    const [drawingState, setDrawingState] = useState(false);
     const [sizePaint, setSizePaint] = useState(1);
-    const { isOpen, onToggle } = useDisclosure();
+    const {isOpen, onToggle} = useDisclosure();
 
 
     const canvas = canvasRef.current
@@ -49,7 +47,7 @@ function Toolbar({ canvasRef }) {
                         <Image src={brush} py={4}></Image>
                     </PopoverTrigger>
                     <PopoverContent p="2">
-                        <PopoverArrow />
+                        <PopoverArrow/>
                         <PopoverBody p="2">
                             <Slider
                                 aria-label='slider-ex-3'
@@ -60,9 +58,9 @@ function Toolbar({ canvasRef }) {
                                 onChange={handleSliderChange} // Add this onChange handler
                             >
                                 <SliderTrack>
-                                    <SliderFilledTrack />
+                                    <SliderFilledTrack/>
                                 </SliderTrack>
-                                <SliderThumb boxSize={6} />
+                                <SliderThumb boxSize={6}/>
                             </Slider>
                         </PopoverBody>
                     </PopoverContent>
@@ -127,7 +125,7 @@ function Toolbar({ canvasRef }) {
             <Box name="Barre d'outil" w={"90%"} m={2} rounded='md' shadow='md'>
                 <Flex name="menu-top" borderRadius={4} w={"60%"}>
                     <Menu isLazy>
-                        <MenuButton name="file-menu" p={2} _hover={{ bg: "#E7E7E7", color: "black" }} color="white">
+                        <MenuButton name="file-menu" p={2} _hover={{bg: "#E7E7E7", color: "black"}} color="white">
                             Fichier</MenuButton>
                         <MenuList>
                             <MenuItem>New Window</MenuItem>
@@ -138,7 +136,7 @@ function Toolbar({ canvasRef }) {
                     </Menu>
                     <Menu isLazy>
                         <Box name="insert-menu">
-                            <MenuButton p={2} _hover={{ bg: "#E7E7E7", color: "black" }} color="white">Insérer</MenuButton>
+                            <MenuButton p={2} _hover={{bg: "#E7E7E7", color: "black"}} color="white">Insérer</MenuButton>
                             <MenuList>
                                 <MenuItem onClick={addSquare}><Text>Square</Text></MenuItem>
                                 <MenuItem onClick={addCircle}><Text colorScheme="linkedin">Circle</Text>
@@ -154,25 +152,27 @@ function Toolbar({ canvasRef }) {
                 <Divider name="divider" />
                 <Flex name="menu-bottom">
                     <Box name="drawing-mode">
-                        <Button m={2} p={2} style={{ backgroundColor: drawingState ? 'red' : 'green' }}
-                            onClick={drawingModeChange}>
-                            <Image src={DrawIcon} />
+                        <Button m={2} p={2} style={{backgroundColor: drawingState ? 'red' : 'green'}}
+                                onClick={drawingModeChange}>
+                            <Image src={DrawIcon}/>
                         </Button>
                     </Box>
                     <Box name="pen-size">
                         <SliderSize />
                     </Box>
                     <Box name="color">
-                        <ButtonExample canvasRef={canvasRef} />
+                        <ButtonExample canvasRef={canvasRef}/>
                     </Box>
                     <Box name="delete-active-selection">
-                    <Tooltip label='Supprimer la selection'>
                         <Button m={2} p={2} colorScheme="linkedin" onClick={deleteSelection}>
                             <Image src={activeSelectionDeleteIcon}></Image>
                         </Button>
-                    </Tooltip>
                     </Box>
-                    <CanvaButton name="delete-active-selection" tooltip="Effacer toute la feuille" imgSource={DeleteIcon} colorScheme="linkedin" onClick={canvasClear} />
+                    <Box name="clear-canvas">
+                        <Button m={2} p={2} colorScheme="linkedin" onClick={canvasClear}>
+                            <Image src={DeleteIcon}></Image>
+                        </Button>
+                    </Box>
                 </Flex>
             </Box>
         </>

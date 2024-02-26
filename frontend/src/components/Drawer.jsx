@@ -10,7 +10,7 @@ import useFabricCanvas from "../utils/hooks/useFabricCanvas.js";
 import PagesList from "./PagesList.jsx";
 import canvas from "../utils/data/canvas.js";
 
-const CanvasComponent = () => {
+const Drawer = () => {
     // differentes importations de hooks etc
     const navigate = useNavigate();
     const {idCanvas} = useParams();
@@ -130,4 +130,4 @@ const CanvasComponent = () => {
     );
 };
 
-export default CanvasComponent;
+export default Drawer;

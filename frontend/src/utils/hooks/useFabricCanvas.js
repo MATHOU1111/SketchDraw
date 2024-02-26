@@ -32,7 +32,6 @@ function useFabricCanvas(dataLoaded, data) {
             }
 
             let objects = data.pages[pageNumber].objects;
-            console.log(objects);
             const canvas = new fabric.Canvas('my-unique-canvas', {
                 backgroundColor: 'white', isDrawingMode: false, objects: objects
             });

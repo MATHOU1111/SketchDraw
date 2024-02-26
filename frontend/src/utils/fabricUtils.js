@@ -67,10 +67,15 @@ const handleDownload = (canvas) => {
 const activeSelectionDelete = (canvas) => {
     if (canvas && canvas._activeObject) {
         const activeSelection = canvas._activeObject;
-        console.log(activeSelection._objects);
-        for (const object of activeSelection._objects) {
-            canvas.remove(object);
+        if(activeSelection._objects){
+            for (const object of activeSelection._objects) {
+                canvas.remove(object);
+            }
+        }else{
+            canvas.remove(activeSelection)
         }
+
+
         canvas.renderAll();
     }
 }
