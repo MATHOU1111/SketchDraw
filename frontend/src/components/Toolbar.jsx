@@ -17,7 +17,7 @@ import DrawIcon from './../assets/draw.svg';
 import brush from './../assets/paint.svg';
 import activeSelectionDeleteIcon from './../assets/activeSelectionDel.svg'
 import {addShape, addText, handleDownload, activeSelectionDelete} from "../utils/fabricUtils.js";
-import ButtonExample from "c:/workflow/sketchDraw/SketchDraw/frontend/src/components/colorPicker"
+import ButtonExample from "./../components/ColorPicker.jsx"
 
 import {
     Popover,

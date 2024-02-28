@@ -33,7 +33,7 @@ function useFabricCanvas(dataLoaded, data) {
 
             let objects = data.pages[pageNumber].objects;
             const canvas = new fabric.Canvas('my-unique-canvas', {
-                backgroundColor: 'white', isDrawingMode: false, objects: objects
+                backgroundColor: 'white', isDrawingMode: false, objects: objects, allowTouchScrolling: true,
             });
 
 
@@ -92,6 +92,18 @@ function useFabricCanvas(dataLoaded, data) {
             canvas.on('object:deleted', function (e) {
                 sendData(e);
             });
+
+
+            canvas.on('mouse:wheel', function(opt) {
+                var delta = opt.e.deltaY;
+                var zoom = canvas.getZoom();
+                zoom *= 0.999 ** delta;
+                if (zoom > 20) zoom = 20;
+                if (zoom < 0.01) zoom = 0.01;
+                canvas.setZoom(zoom);
+                opt.e.preventDefault();
+                opt.e.stopPropagation();
+              })
 
             canvas.renderAll();
             canvasRef.current = canvas;
