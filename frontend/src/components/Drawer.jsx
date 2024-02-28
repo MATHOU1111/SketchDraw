@@ -17,7 +17,7 @@ const Drawer = () => {
 
     const {data, loading} = useGetRequest(`http://localhost:3000/canvas/${idCanvas}`);
 
-    const {loadingPut, error, success, fetchData} = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
+    const {loadingPut, success, fetchData} = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
 
     // Les différents states
     const [pages, setPages] = useState([]);
@@ -38,7 +38,12 @@ const Drawer = () => {
             setPages(data.pages);
             setPageName(data.pages[canvasRef.pageNumber].name);
         }
-    }, [data]);
+    }, [canvasRef.pageNumber, data]);
+
+
+    useEffect(() => {
+        console.log(canvasRef.selectedObject)
+    }, [canvasRef.selectedObject]);
 
     const drawerNameChange = (event) => {
         if (event.target.value !== data.name) {
@@ -120,7 +125,7 @@ const Drawer = () => {
                         </Box>
                         <Center name="canvas-container" h="60vh">
                             <Box direction="column" alignItems="center" border="2px solid" borderColor="grey">
-                                <canvas id="my-unique-canvas" width="1000" height="550"></canvas>
+                                <canvas id="my-unique-canvas" width="900" height="550"></canvas>
                             </Box>
                         </Center>
                     </Flex>

@@ -31,6 +31,7 @@ import {
     SliderThumb
 } from '@chakra-ui/react';
 
+
 function Toolbar({canvasRef}) {
     const [drawingState, setDrawingState] = useState(false);
     const [sizePaint, setSizePaint] = useState(1);

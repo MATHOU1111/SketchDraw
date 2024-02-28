@@ -2,7 +2,6 @@ import {useLocation, useParams} from "react-router-dom";
 import usePutRequest from "./usePutRequest.js";
 import {useEffect, useRef, useState} from "react";
 import {fabric} from "fabric";
-import canvas from "../data/canvas.js";
 
 function useFabricCanvas(dataLoaded, data) {
     // Récupération des Ids de l'URL
@@ -15,28 +14,28 @@ function useFabricCanvas(dataLoaded, data) {
     const {loadingPut, error, success, fetchData} = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
 
     // Référence du canvas, important pour l'utilisation de la toolbar
-    let canvasRef = useRef(null);
-    const [pageNumber, setPageNumber] = useState(0);
+    const canvasRef = useRef(null);
 
+    const [pageNumber, setPageNumber] = useState(0);
+    const [selectedObject, setSelectedObject] = useState(null);
 
     // Affichage du canvas dynamiquement
     useEffect(() => {
         if (dataLoaded && data && canvasRef.current !== undefined) {
-
-            for (let i = 0; i < data.pages.length; i++) {
-                if (data.pages[i].id === idPage) {
-                    console.log(data.pages[i].id);
-                    setPageNumber(i);
-                    console.log(i);
-                }
+            const index = data.pages.findIndex(page => page.id === idPage);
+            if (index !== -1) {
+                setPageNumber(index);
             }
+        }
+    }, [dataLoaded, data, idPage]);
 
-            let objects = data.pages[pageNumber].objects;
+    useEffect(() => {
+        if (canvasRef.current !== undefined && dataLoaded && data && data.pages && data.pages[pageNumber]) {
             const canvas = new fabric.Canvas('my-unique-canvas', {
-                backgroundColor: 'white', isDrawingMode: false, objects: objects, allowTouchScrolling: true,
+                backgroundColor: 'white', isDrawingMode: false, objects: data.pages[pageNumber].objects
             });
 
-
+            canvasRef.current = canvas;
             // Définition de tous les types d'objets qui peuvent entrer
             const fabricConstructors = {
                 'textbox': fabric.Textbox,
@@ -47,13 +46,14 @@ function useFabricCanvas(dataLoaded, data) {
             };
 
             // On insère les éléments de la page dans le canvas
-            if (data && data.pages && data.pages[pageNumber].objects && Array.isArray(data.pages[pageNumber].objects)) {
-                for (let object of data.pages[pageNumber].objects) {
-                    console.log(object);
+            if (data.pages[pageNumber].objects && Array.isArray(data.pages[pageNumber].objects)) {
+                data.pages[pageNumber].objects.forEach(object => {
                     if (object.type in fabricConstructors) {
                         let fabricObject;
+                        // Affichage des dessins
                         if (object.type === 'path') {
                             fabricObject = new fabric.Path(object.path, object);
+                            // Affichage de la textbox
                         } else if (object.type === 'textbox') {
                             fabricObject = new fabric.Textbox(object.text, object);
                         } else {
@@ -65,7 +65,7 @@ function useFabricCanvas(dataLoaded, data) {
                     } else {
                         console.error('Type d\'objet non pris en charge :', object.type);
                     }
-                }
+                });
             }
 
             const sendData = (e) => {
@@ -81,39 +81,47 @@ function useFabricCanvas(dataLoaded, data) {
                         console.error("Une erreur s'est produite lors de la requête :", error);
                     });
             }
-            canvas.on('object:modified', function (e) {
-                sendData(e);
+
+            // Fonction pour mettre à jour l'objet sélectionné
+            const handleObjectSelection = (object) => {
+                setSelectedObject(object);
+            };
+            // Events sur le canvas
+            canvas.on('object:modified', sendData);
+            canvas.on('object:added', sendData);
+            canvas.on('object:deleted', sendData);
+            canvas.on('selection:cleared', () => {
+                handleObjectSelection(null);
             });
 
-            canvas.on('object:added', function (e) {
-                sendData(e);
+
+            canvas.on('selection:created', (e) => {
+                handleObjectSelection(e.selected);
+                setSelectedObject(canvas.getActiveObject())
             });
 
-            canvas.on('object:deleted', function (e) {
-                sendData(e);
-            });
 
-
-            canvas.on('mouse:wheel', function(opt) {
-                var delta = opt.e.deltaY;
-                var zoom = canvas.getZoom();
+            canvas.on('mouse:wheel', function (opt) {
+                let delta = opt.e.deltaY;
+                let zoom = canvas.getZoom();
                 zoom *= 0.999 ** delta;
                 if (zoom > 20) zoom = 20;
                 if (zoom < 0.01) zoom = 0.01;
                 canvas.setZoom(zoom);
                 opt.e.preventDefault();
                 opt.e.stopPropagation();
-              })
+            });
 
             canvas.renderAll();
             canvasRef.current = canvas;
+
             return () => {
                 canvas.dispose(); // Nettoie et supprime l'instance du canvas
             };
         }
-    }, [dataLoaded, data, pageNumber, idPage]);
+    }, [dataLoaded, data, pageNumber, fetchData]);
 
-    return {canvasRef, pageNumber, loadingPut, success};
+    return {canvasRef, pageNumber, loadingPut, success, selectedObject};
 }
 
 export default useFabricCanvas;
