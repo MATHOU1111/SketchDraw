@@ -3,6 +3,7 @@ import { fabric } from 'fabric';
 const addShape = (shapeType, canvas) => {
     if (!canvas) return;
 
+    console.log(canvas)
     let shape;
     switch (shapeType) {
         case 'square':
@@ -37,21 +38,6 @@ const addShape = (shapeType, canvas) => {
     }
 
     canvas.add(shape); // Ajoute la forme au canvas
-    canvas.renderAll(); // Rafraîchit le canvas pour afficher la nouvelle forme
-};
-
-const addText = (canvas) => {
-    if (canvas) {
-        const text = new fabric.Textbox('Votre texte ici', {
-            left: 100, // Position horizontale
-            top: 100,  // Position verticale
-            width: 200, // Largeur de la zone de texte
-            fontSize: 20, // Taille de la police
-            fill: 'black' // Couleur du texte
-        });
-        canvas.add(text);
-        canvas.renderAll();
-    }
 };
 
 const handleDownload = (canvas) => {

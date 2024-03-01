@@ -30,13 +30,13 @@ import {
     SliderFilledTrack,
     SliderThumb
 } from '@chakra-ui/react';
+import {fabric} from "fabric";
 
 
 function Toolbar({canvasRef}) {
     const [drawingState, setDrawingState] = useState(false);
     const [sizePaint, setSizePaint] = useState(1);
     const {isOpen, onToggle} = useDisclosure();
-
 
     const canvas = canvasRef.current
 
@@ -101,8 +101,17 @@ function Toolbar({canvasRef}) {
 
     // Ajout d'une zone de texte
     const addTextToC = () => {
-        addText(canvas)
-    };
+        let text = new fabric.Textbox('Votre texte ici', {
+            left: 100, // Position horizontale
+            top: 100,  // Position verticale
+            width: 200, // Largeur de la zone de texte
+            fontSize: 20, // Taille de la police
+            fill: 'black' // Couleur du texte
+        });
+        canvas.add(text);
+        canvas.renderAll();
+    }
+
 
     const addSquare = () => {
         addShape("square", canvas)
@@ -137,7 +146,8 @@ function Toolbar({canvasRef}) {
                     </Menu>
                     <Menu isLazy>
                         <Box name="insert-menu">
-                            <MenuButton p={2} _hover={{bg: "#E7E7E7", color: "black"}} color="white">Insérer</MenuButton>
+                            <MenuButton p={2} _hover={{bg: "#E7E7E7", color: "black"}}
+                                        color="white">Insérer</MenuButton>
                             <MenuList>
                                 <MenuItem onClick={addSquare}><Text>Square</Text></MenuItem>
                                 <MenuItem onClick={addCircle}><Text colorScheme="linkedin">Circle</Text>
@@ -150,7 +160,7 @@ function Toolbar({canvasRef}) {
                         </Box>
                     </Menu>
                 </Flex>
-                <Divider name="divider" />
+                <Divider name="divider"/>
                 <Flex name="menu-bottom">
                     <Box name="drawing-mode">
                         <Button m={2} p={2} style={{backgroundColor: drawingState ? 'red' : 'green'}}
@@ -159,7 +169,7 @@ function Toolbar({canvasRef}) {
                         </Button>
                     </Box>
                     <Box name="pen-size">
-                        <SliderSize />
+                        <SliderSize/>
                     </Box>
                     <Box name="color">
                         <ButtonExample canvasRef={canvasRef}/>

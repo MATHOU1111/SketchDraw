@@ -95,11 +95,12 @@ function useFabricCanvas(dataLoaded, data) {
             });
 
 
+            /*
             canvas.on('selection:created', (e) => {
                 handleObjectSelection(e.selected);
                 setSelectedObject(canvas.getActiveObject())
             });
-
+             */
 
             canvas.on('mouse:wheel', function (opt) {
                 let delta = opt.e.deltaY;
