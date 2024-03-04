@@ -11,12 +11,11 @@ import {
     MenuList,
     MenuItem
 } from "@chakra-ui/react";
-import {useState} from 'react';
+import { useState } from 'react';
 import DeleteIcon from './../assets/delete.svg';
 import DrawIcon from './../assets/draw.svg';
 import brush from './../assets/paint.svg';
 import activeSelectionDeleteIcon from './../assets/activeSelectionDel.svg'
-import {addShape, addText, handleDownload, activeSelectionDelete} from "../utils/fabricUtils.js";
 import ButtonExample from "./../components/ColorPicker.jsx"
 
 import {
@@ -31,10 +30,9 @@ import {
     SliderThumb
 } from '@chakra-ui/react';
 
-function Toolbar({canvasRef}) {
+function Toolbar({ canvasRef }) {
     const [drawingState, setDrawingState] = useState(false);
     const [sizePaint, setSizePaint] = useState(1);
-    const {isOpen, onToggle} = useDisclosure();
 
 
     const canvas = canvasRef.current
@@ -47,7 +45,7 @@ function Toolbar({canvasRef}) {
                         <Image src={brush} py={4}></Image>
                     </PopoverTrigger>
                     <PopoverContent p="2">
-                        <PopoverArrow/>
+                        <PopoverArrow />
                         <PopoverBody p="2">
                             <Slider
                                 aria-label='slider-ex-3'
@@ -58,9 +56,9 @@ function Toolbar({canvasRef}) {
                                 onChange={handleSliderChange} // Add this onChange handler
                             >
                                 <SliderTrack>
-                                    <SliderFilledTrack/>
+                                    <SliderFilledTrack />
                                 </SliderTrack>
-                                <SliderThumb boxSize={6}/>
+                                <SliderThumb boxSize={6} />
                             </Slider>
                         </PopoverBody>
                     </PopoverContent>
@@ -95,28 +93,86 @@ function Toolbar({canvasRef}) {
 
     // Telechargement du canva
     const downloadCanva = () => {
-        handleDownload(canvas)
+        let canvasDataUrl = canvas.toDataURL({ format: 'png' });
+
+        // Créez un lien de téléchargement
+        const link = document.createElement('a');
+        link.href = canvasDataUrl;
+        link.download = 'mon_canvas.png';
+        link.click();
     }
 
     // Ajout d'une zone de texte
     const addTextToC = () => {
-        addText(canvas)
+        if (canvas) {
+            const text = new fabric.Textbox('Votre texte ici', {
+                left: 100,
+                top: 100,
+                width: 200,
+                fontSize: 20,
+                fill: 'black'
+            });
+            canvas.add(text);
+            canvas.renderAll();
+        }
     };
 
     const addSquare = () => {
-        addShape("square", canvas)
+        if (canvas) {
+            let shape = new fabric.Rect({
+                left: 100,
+                top: 100,
+                fill: 'blue',
+                width: 100,
+                height: 100
+            });
+            canvas.add(shape);
+            canvas.renderAll()
+        }
     }
 
     const addCircle = () => {
-        addShape("circle", canvas)
+        if (canvas) {
+            let shape = new fabric.Circle({
+                left: 200,
+                top: 200,
+                fill: 'blue',
+                radius: 50
+            });
+            canvas.add(shape);
+            canvas.renderAll()
+        }
     }
 
     const addTriangle = () => {
-        addShape("triangle", canvas)
+        if (canvas) {
+            let shape = new fabric.Triangle({
+                left: 150,
+                top: 150,
+                fill: 'blue',
+                width: 100,
+                height: 100
+            });
+            canvas.add(shape);
+            canvas.renderAll()
+        }
     }
 
+
     const deleteSelection = () => {
-        activeSelectionDelete(canvas);
+        if (canvas && canvas._activeObject) {
+            const activeSelection = canvas._activeObject;
+            if (activeSelection._objects) {
+                for (const object of activeSelection._objects) {
+                    canvas.remove(object);
+                }
+            } else {
+                canvas.remove(activeSelection)
+            }
+
+
+            canvas.renderAll();
+        }
     }
 
 
@@ -125,7 +181,7 @@ function Toolbar({canvasRef}) {
             <Box name="Barre d'outil" w={"90%"} m={2} rounded='md' shadow='md'>
                 <Flex name="menu-top" borderRadius={4} w={"60%"}>
                     <Menu isLazy>
-                        <MenuButton name="file-menu" p={2} _hover={{bg: "#E7E7E7", color: "black"}} color="white">
+                        <MenuButton name="file-menu" p={2} _hover={{ bg: "#E7E7E7", color: "black" }} color="white">
                             Fichier</MenuButton>
                         <MenuList>
                             <MenuItem>New Window</MenuItem>
@@ -136,7 +192,7 @@ function Toolbar({canvasRef}) {
                     </Menu>
                     <Menu isLazy>
                         <Box name="insert-menu">
-                            <MenuButton p={2} _hover={{bg: "#E7E7E7", color: "black"}} color="white">Insérer</MenuButton>
+                            <MenuButton p={2} _hover={{ bg: "#E7E7E7", color: "black" }} color="white">Insérer</MenuButton>
                             <MenuList>
                                 <MenuItem onClick={addSquare}><Text>Square</Text></MenuItem>
                                 <MenuItem onClick={addCircle}><Text colorScheme="linkedin">Circle</Text>
@@ -152,16 +208,16 @@ function Toolbar({canvasRef}) {
                 <Divider name="divider" />
                 <Flex name="menu-bottom">
                     <Box name="drawing-mode">
-                        <Button m={2} p={2} style={{backgroundColor: drawingState ? 'red' : 'green'}}
-                                onClick={drawingModeChange}>
-                            <Image src={DrawIcon}/>
+                        <Button m={2} p={2} style={{ backgroundColor: drawingState ? 'red' : 'green' }}
+                            onClick={drawingModeChange}>
+                            <Image src={DrawIcon} />
                         </Button>
                     </Box>
                     <Box name="pen-size">
                         <SliderSize />
                     </Box>
                     <Box name="color">
-                        <ButtonExample canvasRef={canvasRef}/>
+                        <ButtonExample canvasRef={canvasRef} />
                     </Box>
                     <Box name="delete-active-selection">
                         <Button m={2} p={2} colorScheme="linkedin" onClick={deleteSelection}>
