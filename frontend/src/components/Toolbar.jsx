@@ -167,6 +167,7 @@ function Toolbar({ canvasRef }) {
             if (activeSelection._objects) {
                 for (const object of activeSelection._objects) {
                     canvas.remove(object);
+                    canvas.renderAll();
                 }
             } else {
                 canvas.remove(activeSelection)

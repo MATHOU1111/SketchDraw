@@ -72,14 +72,14 @@ function useFabricCanvas(dataLoaded, data) {
                 let obj = e.target;
                 console.log('Objet modifié: ', obj);
                 console.log(canvas._objects);
-                data.pages[pageNumber].objects = canvas._objects;
-                // fetchData(data)
-                //     .then(() => {
-                //         console.log("La requête a réussi !");
-                //     })
-                //     .catch(error => {
-                //         console.error("Une erreur s'est produite lors de la requête :", error);
-                //     });
+                data.pages[pageNumber].objects = canvas._objects
+                fetchData(data)
+                    .then(() => {
+                        console.log("La requête a réussi !", data);
+                    })
+                    .catch(error => {
+                        console.error("Une erreur s'est produite lors de la requête :", error);
+                    });
             }
 
 
@@ -92,11 +92,17 @@ function useFabricCanvas(dataLoaded, data) {
                 sendData(e);
             });
 
-            canvas.on('object:deleted', function (e) {
+            canvas.on('object:removed', function (e) {
                 sendData(e);
             });
 
             canvas.on('selection:updated', function(e){
+                console.log("lol")
+                // console.log(e.selected[0])
+                // setSelectedObject(e.selected[0]);
+            });
+
+            canvas.on('selection:created', function(e){
                 console.log("lol")
                 // console.log(e.selected[0])
                 // setSelectedObject(e.selected[0]);
@@ -119,14 +125,16 @@ function useFabricCanvas(dataLoaded, data) {
                 opt.e.stopPropagation();
             });
 
+            canvas.isDrawingMode = false;
             canvas.renderAll();
             canvasRef.current = canvas;
+        
 
             return () => {
                 canvas.dispose(); // Nettoie et supprime l'instance du canvas
             };
         }
-    }, [dataLoaded, data, pageNumber, fetchData]);
+    }, [dataLoaded,data, pageNumber]);
 
     return {canvasRef, pageNumber, loadingPut, success, selectedObject};
 }

@@ -41,10 +41,6 @@ const Drawer = () => {
     }, [canvasRef.pageNumber, data]);
 
 
-    useEffect(() => {
-        console.log(canvasRef.selectedObject)
-    }, [canvasRef.selectedObject]);
-
     const drawerNameChange = (event) => {
         if (event.target.value !== data.name) {
             data.name = event.target.value;
