@@ -29,6 +29,8 @@ import {
     SliderFilledTrack,
     SliderThumb
 } from '@chakra-ui/react';
+import {fabric} from "fabric";
+
 
 function Toolbar({ canvasRef }) {
     const [drawingState, setDrawingState] = useState(false);
@@ -205,7 +207,7 @@ function Toolbar({ canvasRef }) {
                         </Box>
                     </Menu>
                 </Flex>
-                <Divider name="divider" />
+                <Divider name="divider"/>
                 <Flex name="menu-bottom">
                     <Box name="drawing-mode">
                         <Button m={2} p={2} style={{ backgroundColor: drawingState ? 'red' : 'green' }}
@@ -214,7 +216,7 @@ function Toolbar({ canvasRef }) {
                         </Button>
                     </Box>
                     <Box name="pen-size">
-                        <SliderSize />
+                        <SliderSize/>
                     </Box>
                     <Box name="color">
                         <ButtonExample canvasRef={canvasRef} />

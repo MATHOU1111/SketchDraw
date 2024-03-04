@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChromePicker } from 'react-color';
-import {Box, Button, Image, Tooltip} from '@chakra-ui/react';
+import {Box, Button, Image} from '@chakra-ui/react';
 import colorIcon from '../assets/color.svg';
 
 function ButtonExample({ canvasRef }) {
@@ -16,8 +16,10 @@ function ButtonExample({ canvasRef }) {
   };
 
   const handleChangeComplete = (color) => {
+    // eslint-disable-next-line react/prop-types
     const canvas = canvasRef.current;
     setColor(color.hex);
+    // eslint-disable-next-line react/prop-types
     canvas.freeDrawingBrush.color = color.hex;
   };
 
