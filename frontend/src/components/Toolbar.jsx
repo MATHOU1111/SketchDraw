@@ -4,7 +4,6 @@ import {
     Flex,
     Image,
     Text,
-    useDisclosure,
     Divider,
     Menu,
     MenuButton,
@@ -29,7 +28,7 @@ import {
     SliderFilledTrack,
     SliderThumb
 } from '@chakra-ui/react';
-import {fabric} from "fabric";
+import { fabric } from "fabric";
 
 
 function Toolbar({ canvasRef }) {
@@ -83,6 +82,7 @@ function Toolbar({ canvasRef }) {
     const drawingModeChange = () => {
         canvas.isDrawingMode = !canvas.isDrawingMode;
         setDrawingState(!drawingState);
+        console.log(canvas.isDrawingMode)
     };
 
     // Fonction pour la taille du pinceau
@@ -129,7 +129,7 @@ function Toolbar({ canvasRef }) {
                 height: 100
             });
             canvas.add(shape);
-            canvas.renderAll()
+            canvas.renderAll();
         }
     }
 
@@ -142,7 +142,7 @@ function Toolbar({ canvasRef }) {
                 radius: 50
             });
             canvas.add(shape);
-            canvas.renderAll()
+            canvas.renderAll();
         }
     }
 
@@ -156,7 +156,7 @@ function Toolbar({ canvasRef }) {
                 height: 100
             });
             canvas.add(shape);
-            canvas.renderAll()
+            canvas.renderAll();
         }
     }
 
@@ -171,8 +171,6 @@ function Toolbar({ canvasRef }) {
             } else {
                 canvas.remove(activeSelection)
             }
-
-
             canvas.renderAll();
         }
     }
@@ -207,7 +205,7 @@ function Toolbar({ canvasRef }) {
                         </Box>
                     </Menu>
                 </Flex>
-                <Divider name="divider"/>
+                <Divider name="divider" />
                 <Flex name="menu-bottom">
                     <Box name="drawing-mode">
                         <Button m={2} p={2} style={{ backgroundColor: drawingState ? 'red' : 'green' }}
@@ -216,7 +214,7 @@ function Toolbar({ canvasRef }) {
                         </Button>
                     </Box>
                     <Box name="pen-size">
-                        <SliderSize/>
+                        <SliderSize />
                     </Box>
                     <Box name="color">
                         <ButtonExample canvasRef={canvasRef} />

@@ -30,9 +30,9 @@ function useFabricCanvas(dataLoaded, data) {
     }, [dataLoaded, data, idPage]);
 
     useEffect(() => {
-        if (canvasRef.current !== undefined && dataLoaded && data && data.pages && data.pages[pageNumber]) {
+        if (canvasRef.current !== undefined && data && data.pages && data.pages[pageNumber]) {
             const canvas = new fabric.Canvas('my-unique-canvas', {
-                backgroundColor: 'white', isDrawingMode: false, objects: objects
+                backgroundColor: 'white', isDrawingMode: false, objects: data.pages[pageNumber], renderOnAddRemove: false
             });
 
             canvasRef.current = canvas;
@@ -73,25 +73,23 @@ function useFabricCanvas(dataLoaded, data) {
                 console.log('Objet modifié: ', obj);
                 console.log(canvas._objects);
                 data.pages[pageNumber].objects = canvas._objects;
-                fetchData(data)
-                    .then(() => {
-                        console.log("La requête a réussi !");
-                    })
-                    .catch(error => {
-                        console.error("Une erreur s'est produite lors de la requête :", error);
-                    });
+                // fetchData(data)
+                //     .then(() => {
+                //         console.log("La requête a réussi !");
+                //     })
+                //     .catch(error => {
+                //         console.error("Une erreur s'est produite lors de la requête :", error);
+                //     });
             }
 
-            // Fonction pour mettre à jour l'objet sélectionné
-            const handleObjectSelection = (object) => {
-                setSelectedObject(object);
-            };
+
             // Events sur le canvas
-            canvas.on('object:modified', sendData);
-            canvas.on('object:added', sendData);
-            canvas.on('object:deleted', sendData);
-            canvas.on('selection:cleared', () => {
-                handleObjectSelection(null);
+            canvas.on('object:modified', function (e) {
+                sendData(e);
+            });
+
+            canvas.on('object:added', function (e) {
+                sendData(e);
             });
 
             canvas.on('object:deleted', function (e) {
@@ -99,7 +97,13 @@ function useFabricCanvas(dataLoaded, data) {
             });
 
             canvas.on('selection:updated', function(e){
-                console.log(e.selected[0]) 
+                console.log("lol")
+                // console.log(e.selected[0])
+                // setSelectedObject(e.selected[0]);
+            });
+
+            canvas.on('selection:cleared', () => {
+                setSelectedObject(null);
             });
 
 
