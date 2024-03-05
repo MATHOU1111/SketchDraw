@@ -25,11 +25,6 @@ const Drawer = () => {
     const [drawName, setDrawName] = useState("");
     const [pageName, setPageName] = useState("");
 
-
-
-    console.log(canvasRef)
-
-
     // on récupère les données du canva !
     useEffect(() => {
         if (data !== null) {

@@ -10,12 +10,12 @@ import {
     MenuList,
     MenuItem
 } from "@chakra-ui/react";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import DeleteIcon from './../assets/delete.svg';
 import DrawIcon from './../assets/draw.svg';
 import brush from './../assets/paint.svg';
 import activeSelectionDeleteIcon from './../assets/activeSelectionDel.svg'
-import ButtonExample from "./../components/ColorPicker.jsx"
+import ColorPicker from "./../components/ColorPicker.jsx"
 
 import {
     Popover,
@@ -183,7 +183,7 @@ function Toolbar({ canvasRef, selectedObject }) {
 
     return (
         <>
-            <Box name="Barre d'outil" p={4} w={"90%"} mb={16} rounded='md' shadow='md'>
+            <Box name="Barre d'outil" p={4} w={"90%"} m={2} rounded='md' shadow='md'>
                 <Flex name="menu-top" borderRadius={4} w={"60%"}>
                     <Menu isLazy>
                         <MenuButton name="file-menu" p={2} _hover={{ bg: "#E7E7E7", color: "black" }} color="white">
@@ -213,8 +213,7 @@ function Toolbar({ canvasRef, selectedObject }) {
                 <Divider name="divider" />
                 <Flex name="menu-bottom">
                     <Box name="drawing-mode">
-                        <Button m={2} p={2} style={{ backgroundColor: drawingState ? 'red' : 'green' }}
-                            onClick={drawingModeChange}>
+                        <Button m={2} p={2} onClick={drawingModeChange}>
                             <Image src={DrawIcon} />
                         </Button>
                     </Box>
@@ -222,7 +221,7 @@ function Toolbar({ canvasRef, selectedObject }) {
                         <SliderSize />
                     </Box>
                     <Box name="color">
-                        <ButtonExample canvasRef={canvasRef} />
+                        <ColorPicker canvasRef={canvasRef} />
                     </Box>
                     <Box name="delete-active-selection">
                         <Button m={2} p={2} colorScheme="linkedin" onClick={deleteSelection}>
@@ -235,7 +234,7 @@ function Toolbar({ canvasRef, selectedObject }) {
                         </Button>
                     </Box>
                     {
-                    selectedObject ? (<ToolbarSelection />) : (<></>)
+                    selectedObject ? (<ToolbarSelection objectSelected={selectedObject} />) : (<></>)
                 }
                 </Flex>
             </Box>

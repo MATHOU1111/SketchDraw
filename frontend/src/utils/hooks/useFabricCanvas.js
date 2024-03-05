@@ -32,7 +32,7 @@ function useFabricCanvas(dataLoaded, data) {
     useEffect(() => {
         if (canvasRef.current !== undefined && data && data.pages && data.pages[pageNumber]) {
             const canvas = new fabric.Canvas('my-unique-canvas', {
-                backgroundColor: 'white', objects: data.pages[pageNumber], renderOnAddRemove: false, isDrawingMode : true
+                backgroundColor: 'white', objects: data.pages[pageNumber], renderOnAddRemove: false, isDrawingMode : false
             });
 
             canvasRef.current = canvas;
