@@ -99,14 +99,14 @@ function useFabricCanvas(dataLoaded, data) {
 
                 canvas.on('selection:updated', function (e) {
                     console.log("lol")
-                    // console.log(e.selected[0])
-                    // setSelectedObject(e.selected[0]);
+                    console.log(e.selected[0])
+                    setSelectedObject(e.selected[0]);
                 });
 
                 canvas.on('selection:created', function (e) {
                     console.log("lol")
-                    // console.log(e.selected[0])
-                    // setSelectedObject(e.selected[0]);
+                    console.log(e.selected[0])
+                    setSelectedObject(e.selected[0]);
                 });
 
                 canvas.on('selection:cleared', () => {

@@ -29,20 +29,18 @@ import {
     SliderThumb
 } from '@chakra-ui/react';
 import { fabric } from "fabric";
+import ToolbarSelection from "./ToolBarSelection.jsx";
 
 
-function Toolbar({ canvasRef, idCanvas }) {
+function Toolbar({ canvasRef, selectedObject }) {
     const [drawingState, setDrawingState] = useState(true);
     const [sizePaint, setSizePaint] = useState(1);
 
 
 
+
     const canvas = canvasRef.current
 
-    useEffect(() => {
-        canvasRef.current
-        console.log(canvas)
-    }), [canvas, canvasRef.current];
 
     function SliderSize() {
         return (
@@ -74,7 +72,6 @@ function Toolbar({ canvasRef, idCanvas }) {
         )
     }
 
-
     // A REFAIRE
     const canvasClear = () => {
         if (canvas) {
@@ -86,7 +83,7 @@ function Toolbar({ canvasRef, idCanvas }) {
 
     // Bouton on/off pour le dessin
     const drawingModeChange = () => {
-        canvas.isDrawingMode = !drawingState;
+        canvas.isDrawingMode = !canvas.isDrawingMode
         console.log(canvas.isDrawingMode)
     };
 
@@ -186,7 +183,7 @@ function Toolbar({ canvasRef, idCanvas }) {
 
     return (
         <>
-            <Box name="Barre d'outil" w={"90%"} m={2} rounded='md' shadow='md'>
+            <Box name="Barre d'outil" p={4} w={"90%"} mb={16} rounded='md' shadow='md'>
                 <Flex name="menu-top" borderRadius={4} w={"60%"}>
                     <Menu isLazy>
                         <MenuButton name="file-menu" p={2} _hover={{ bg: "#E7E7E7", color: "black" }} color="white">
@@ -237,6 +234,9 @@ function Toolbar({ canvasRef, idCanvas }) {
                             <Image src={DeleteIcon}></Image>
                         </Button>
                     </Box>
+                    {
+                    selectedObject ? (<ToolbarSelection />) : (<></>)
+                }
                 </Flex>
             </Box>
         </>

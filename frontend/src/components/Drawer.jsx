@@ -1,22 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {fabric} from "fabric";
+import React, { useEffect, useState } from 'react';
+import { fabric } from "fabric";
 import Toolbar from './Toolbar';
-import {useParams, useNavigate} from 'react-router-dom';
-import {useGetRequest} from "../utils/hooks/useGetRequest.js";
+import { useParams, useNavigate } from 'react-router-dom';
+import { useGetRequest } from "../utils/hooks/useGetRequest.js";
 import usePutRequest from "../utils/hooks/usePutRequest.js";
 import canvasSkeleton from "../utils/data/canvas.js";
-import {Button, Box, Center, Spinner, Input, Flex, Text} from '@chakra-ui/react'
+import { Button, Box, Center, Spinner, Input, Flex, Text } from '@chakra-ui/react'
 import useFabricCanvas from "../utils/hooks/useFabricCanvas.js";
 import PagesList from "./PagesList.jsx";
 
 const Drawer = () => {
     // differentes importations de hooks etc
     const navigate = useNavigate();
-    const {idCanvas} = useParams();
+    const { idCanvas } = useParams();
+    const [dataLoaded, setDataLoaded] = useState(false);
+    const { data, loading } = useGetRequest(`http://localhost:3000/canvas/${idCanvas}`);
+    const canvasRef = useFabricCanvas(dataLoaded, data);
 
-    const {data, loading} = useGetRequest(`http://localhost:3000/canvas/${idCanvas}`);
-
-    const {loadingPut, success, fetchData} = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
+    const { loadingPut, success, fetchData } = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
 
     // Les différents states
     const [pages, setPages] = useState([]);
@@ -24,9 +25,9 @@ const Drawer = () => {
     const [drawName, setDrawName] = useState("");
     const [pageName, setPageName] = useState("");
 
-    const [dataLoaded, setDataLoaded] = useState(false);
 
-    const canvasRef = useFabricCanvas(dataLoaded, data);
+
+    console.log(canvasRef)
 
 
     // on récupère les données du canva !
@@ -58,7 +59,7 @@ const Drawer = () => {
         if (event.target.value !== data.pages[canvasRef.pageNumber].name) {
             const newPageName = event.target.value;
             data.pages[canvasRef.pageNumber].name = newPageName;
-            setPageName(newPageName); // Met à jour pageName
+            setPageName(newPageName);
             // Effectuer des actions une fois que pageName a été mis à jour
             fetchData(data)
                 .then(() => {
@@ -90,13 +91,13 @@ const Drawer = () => {
         <>
             {loading ? (
                 <Center h="80vh">
-                    <Spinner size="xl"/>
+                    <Spinner size="xl" />
                 </Center>
             ) : (
                 <>
                     <Flex name="drawer-name">
-                        <Box  w={"20%"} p={"4"}>
-                            <Input placeholder="Nom de votre dessin" defaultValue={drawName} onBlur={drawerNameChange}/>
+                        <Box w={"20%"} p={"4"}>
+                            <Input placeholder="Nom de votre dessin" defaultValue={drawName} onBlur={drawerNameChange} />
                         </Box>
                         {loadingPut || canvasRef.loadingPut ? (
                             <Text mt={6}>Enregistrement des changements ...</Text>
@@ -107,16 +108,15 @@ const Drawer = () => {
                                 <Text m={6}></Text>
                             )
                         )}
-                        {/*                          <Box p={"4"}>
-                            <Input placeholder="Nom de la page" value={pageName}
-                                   onChange={(event) => setPageName(event.target.value)} onBlur={pageNameChange}/>
-                        </Box> */}
                     </Flex>
-                    <Toolbar canvasRef={canvasRef.canvasRef} idCanvas={idCanvas} />
+                    <Toolbar canvasRef={canvasRef.canvasRef} selectedObject={canvasRef.selectedObject} />
                     <Flex name="editor">
-                        <Box name="pages-section" overflowY="scroll" h="565px">
-                            <Button m={4} onClick={addPage}>Ajouter une page</Button>
-                            <PagesList data={pages}/>
+                        <Box name="pages-section" overflowY="scroll" h="500px">
+                        <Button onClick={addPage}>Ajouter une page</Button>
+                        <Box p={"4"}>
+                            <Input placeholder="Nom de la page" value={pageName} onChange={(event) => setPageName(event.target.value)} onBlur={pageNameChange} />
+                        </Box>
+                            <PagesList data={pages} />
                         </Box>
                         <Center name="canvas-container" h="60vh">
                             <Box direction="column" alignItems="center" border="2px solid" borderColor="grey">
