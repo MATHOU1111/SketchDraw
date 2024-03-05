@@ -5,6 +5,7 @@ import DrawItem from "./DrawItem.jsx";
 const DrawList = () => {
     const { data: canvasList, loadingGet, errorGet } = useGetRequest("http://localhost:3000/canvas");
 
+
     // Loading state
     if (loadingGet) {
         return <div>Loading...</div>;

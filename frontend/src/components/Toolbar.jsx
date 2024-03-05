@@ -10,7 +10,7 @@ import {
     MenuList,
     MenuItem
 } from "@chakra-ui/react";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DeleteIcon from './../assets/delete.svg';
 import DrawIcon from './../assets/draw.svg';
 import brush from './../assets/paint.svg';
@@ -31,12 +31,18 @@ import {
 import { fabric } from "fabric";
 
 
-function Toolbar({ canvasRef }) {
-    const [drawingState, setDrawingState] = useState(false);
+function Toolbar({ canvasRef, idCanvas }) {
+    const [drawingState, setDrawingState] = useState(true);
     const [sizePaint, setSizePaint] = useState(1);
 
 
+
     const canvas = canvasRef.current
+
+    useEffect(() => {
+        canvasRef.current
+        console.log(canvas)
+    }), [canvas, canvasRef.current];
 
     function SliderSize() {
         return (
@@ -80,8 +86,7 @@ function Toolbar({ canvasRef }) {
 
     // Bouton on/off pour le dessin
     const drawingModeChange = () => {
-        canvas.isDrawingMode = !canvas.isDrawingMode;
-        setDrawingState(!drawingState);
+        canvas.isDrawingMode = !drawingState;
         console.log(canvas.isDrawingMode)
     };
 
@@ -100,7 +105,7 @@ function Toolbar({ canvasRef }) {
         // Créez un lien de téléchargement
         const link = document.createElement('a');
         link.href = canvasDataUrl;
-        link.download = 'mon_canvas.png';
+        link.download = 'Mon_dessin.png';
         link.click();
     }
 
@@ -175,6 +180,8 @@ function Toolbar({ canvasRef }) {
             canvas.renderAll();
         }
     }
+
+
 
 
     return (

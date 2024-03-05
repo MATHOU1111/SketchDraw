@@ -8,7 +8,6 @@ import canvasSkeleton from "../utils/data/canvas.js";
 import {Button, Box, Center, Spinner, Input, Flex, Text} from '@chakra-ui/react'
 import useFabricCanvas from "../utils/hooks/useFabricCanvas.js";
 import PagesList from "./PagesList.jsx";
-import canvas from "../utils/data/canvas.js";
 
 const Drawer = () => {
     // differentes importations de hooks etc
@@ -113,7 +112,7 @@ const Drawer = () => {
                                    onChange={(event) => setPageName(event.target.value)} onBlur={pageNameChange}/>
                         </Box> */}
                     </Flex>
-                    <Toolbar canvasRef={canvasRef.canvasRef}/>
+                    <Toolbar canvasRef={canvasRef.canvasRef} idCanvas={idCanvas} />
                     <Flex name="editor">
                         <Box name="pages-section" overflowY="scroll" h="565px">
                             <Button m={4} onClick={addPage}>Ajouter une page</Button>

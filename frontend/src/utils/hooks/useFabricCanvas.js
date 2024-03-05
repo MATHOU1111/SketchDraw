@@ -1,17 +1,17 @@
-import {useLocation, useParams} from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import usePutRequest from "./usePutRequest.js";
-import {useEffect, useRef, useState} from "react";
-import {fabric} from "fabric";
+import { useEffect, useRef, useState } from "react";
+import { fabric } from "fabric";
 
 function useFabricCanvas(dataLoaded, data) {
     // Récupération des Ids de l'URL
-    const {idCanvas} = useParams();
+    const { idCanvas } = useParams();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const idPage = searchParams.get('page');
 
     // hook
-    const {loadingPut, error, success, fetchData} = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
+    const { loadingPut, error, success, fetchData } = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
 
     // Référence du canvas, important pour l'utilisation de la toolbar
     const canvasRef = useRef(null);
@@ -32,7 +32,7 @@ function useFabricCanvas(dataLoaded, data) {
     useEffect(() => {
         if (canvasRef.current !== undefined && data && data.pages && data.pages[pageNumber]) {
             const canvas = new fabric.Canvas('my-unique-canvas', {
-                backgroundColor: 'white', isDrawingMode: false, objects: data.pages[pageNumber], renderOnAddRemove: false
+                backgroundColor: 'white', objects: data.pages[pageNumber], renderOnAddRemove: false, isDrawingMode : true
             });
 
             canvasRef.current = canvas;
@@ -83,60 +83,61 @@ function useFabricCanvas(dataLoaded, data) {
             }
 
 
-            // Events sur le canvas
-            canvas.on('object:modified', function (e) {
-                sendData(e);
-            });
+            if (canvas) {
+                // Events sur le canvas
+                canvas.on('object:modified', function (e) {
+                    sendData(e);
+                });
 
-            canvas.on('object:added', function (e) {
-                sendData(e);
-            });
+                canvas.on('object:added', function (e) {
+                    sendData(e);
+                });
 
-            canvas.on('object:removed', function (e) {
-                sendData(e);
-            });
+                canvas.on('object:removed', function (e) {
+                    sendData(e);
+                });
 
-            canvas.on('selection:updated', function(e){
-                console.log("lol")
-                // console.log(e.selected[0])
-                // setSelectedObject(e.selected[0]);
-            });
+                canvas.on('selection:updated', function (e) {
+                    console.log("lol")
+                    // console.log(e.selected[0])
+                    // setSelectedObject(e.selected[0]);
+                });
 
-            canvas.on('selection:created', function(e){
-                console.log("lol")
-                // console.log(e.selected[0])
-                // setSelectedObject(e.selected[0]);
-            });
+                canvas.on('selection:created', function (e) {
+                    console.log("lol")
+                    // console.log(e.selected[0])
+                    // setSelectedObject(e.selected[0]);
+                });
 
-            canvas.on('selection:cleared', () => {
-                setSelectedObject(null);
-            });
+                canvas.on('selection:cleared', () => {
+                    setSelectedObject(null);
+                });
 
 
-            canvas.on('mouse:wheel', function(opt) {
-               // console.log(opt)
-                var delta = opt.e.deltaY;
-                var zoom = canvas.getZoom();
-                zoom *= 0.999 ** delta;
-                if (zoom > 20) zoom = 20;
-                if (zoom < 0.01) zoom = 0.01;
-                canvas.setZoom(zoom);
-                opt.e.preventDefault();
-                opt.e.stopPropagation();
-            });
+                canvas.on('mouse:wheel', function (opt) {
+                    // console.log(opt)
+                    var delta = opt.e.deltaY;
+                    var zoom = canvas.getZoom();
+                    zoom *= 0.999 ** delta;
+                    if (zoom > 20) zoom = 20;
+                    if (zoom < 0.01) zoom = 0.01;
+                    canvas.setZoom(zoom);
+                    opt.e.preventDefault();
+                    opt.e.stopPropagation();
+                });
 
-            canvas.isDrawingMode = false;
-            canvas.renderAll();
-            canvasRef.current = canvas;
-        
+
+                canvas.renderAll();
+                canvasRef.current = canvas;
+            }
 
             return () => {
                 canvas.dispose(); // Nettoie et supprime l'instance du canvas
             };
         }
-    }, [dataLoaded,data, pageNumber]);
+    }, [dataLoaded, data, pageNumber]);
 
-    return {canvasRef, pageNumber, loadingPut, success, selectedObject};
+    return { canvasRef, pageNumber, loadingPut, success, selectedObject };
 }
 
 export default useFabricCanvas;
