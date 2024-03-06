@@ -29,6 +29,7 @@ function ColorPicker({canvasRef, objectSelected}) {
         let object = objectSelected
         if (object.type === "circle" || object.type === "rect" || object.type === "triangle") {
             setColorForm(color.hex);
+            object.set("fill", color.hex);
         } else if (object.type === "path") {
             setColorForm(color.hex);
             object.set("stroke", color.hex);

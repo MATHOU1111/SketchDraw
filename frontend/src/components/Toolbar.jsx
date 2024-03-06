@@ -33,7 +33,7 @@ import ToolbarSelection from "./ToolBarSelection.jsx";
 
 
 function Toolbar({ canvasRef, selectedObject }) {
-    const [drawingState, setDrawingState] = useState(true);
+    const [drawingState, setDrawingState] = useState(false);
     const [sizePaint, setSizePaint] = useState(1);
 
 
@@ -44,7 +44,7 @@ function Toolbar({ canvasRef, selectedObject }) {
 
     function SliderSize() {
         return (
-            <Button m={2} p={2} colorScheme="linkedin">
+            <Button m={2} p={2} variant='ghost'>
                 <Popover>
                     <PopoverTrigger>
                         <Image src={brush} py={4}></Image>
@@ -84,6 +84,7 @@ function Toolbar({ canvasRef, selectedObject }) {
     // Bouton on/off pour le dessin
     const drawingModeChange = () => {
         canvas.isDrawingMode = !canvas.isDrawingMode
+        setDrawingState(!drawingState)
         console.log(canvas.isDrawingMode)
     };
 
@@ -183,28 +184,33 @@ function Toolbar({ canvasRef, selectedObject }) {
 
     return (
         <>
-            <Box name="Barre d'outil" p={4} w={"90%"} rounded='md' shadow='md'>
-                <Flex name="menu-top" borderRadius={4} w={"60%"}>
+                <Flex name="menu-top" borderRadius={4} w="60%">
                     <Menu isLazy>
                         <MenuButton name="file-menu" p={2} _hover={{ bg: "#E7E7E7", color: "black" }} color="white">
-                            Fichier</MenuButton>
+                            Fichier
+                        </MenuButton>
                         <MenuList>
                             <MenuItem>New Window</MenuItem>
                             <MenuItem>Open Closed Tab</MenuItem>
                             <MenuItem>Open File</MenuItem>
-                            <MenuItem onClick={downloadCanva}><Text>Download</Text></MenuItem>
+                            <MenuItem onClick={downloadCanva}>Download</MenuItem>
                         </MenuList>
                     </Menu>
                     <Menu isLazy>
                         <Box name="insert-menu">
-                            <MenuButton p={2} _hover={{ bg: "#E7E7E7", color: "black" }} color="white">Insérer</MenuButton>
+                            <MenuButton p={2} _hover={{ bg: "#E7E7E7", color: "black" }} color="white">
+                                Insérer
+                            </MenuButton>
                             <MenuList>
-                                <MenuItem onClick={addSquare}><Text>Square</Text></MenuItem>
-                                <MenuItem onClick={addCircle}><Text colorScheme="linkedin">Circle</Text>
+                                <MenuItem onClick={addSquare}>Square</MenuItem>
+                                <MenuItem onClick={addCircle} colorScheme="linkedin">
+                                    Circle
                                 </MenuItem>
-                                <MenuItem onClick={addTriangle}><Text colorScheme="linkedin">Triangle</Text>
+                                <MenuItem onClick={addTriangle} colorScheme="linkedin">
+                                    Triangle
                                 </MenuItem>
-                                <MenuItem onClick={addTextToC}><Text colorScheme="linkedin">Text area</Text>
+                                <MenuItem onClick={addTextToC} colorScheme="linkedin">
+                                    Text area
                                 </MenuItem>
                             </MenuList>
                         </Box>
@@ -213,31 +219,32 @@ function Toolbar({ canvasRef, selectedObject }) {
                 <Divider name="divider" />
                 <Flex name="menu-bottom">
                     <Box name="drawing-mode">
-                        <Button m={2} p={2} onClick={drawingModeChange}>
+                        <Button m={2} p={2} variant='ghost' onClick={drawingModeChange}>
                             <Image src={DrawIcon} />
                         </Button>
                     </Box>
-                    <Box name="pen-size">
-                        <SliderSize />
-                    </Box>
-                    <Box name="color">
-                        <ColorPicker canvasRef={canvasRef} />
-                    </Box>
+                    {drawingState && (
+                        <>
+                            <Box name="pen-size">
+                                <SliderSize />
+                            </Box>
+                            <Box name="color">
+                                <ColorPicker canvasRef={canvasRef} />
+                            </Box>
+                        </>
+                    )}
                     <Box name="delete-active-selection">
-                        <Button m={2} p={2} colorScheme="linkedin" onClick={deleteSelection}>
-                            <Image src={activeSelectionDeleteIcon}></Image>
+                        <Button m={2} p={2} variant='ghost' onClick={deleteSelection}>
+                            <Image src={activeSelectionDeleteIcon} />
                         </Button>
                     </Box>
                     <Box name="clear-canvas">
-                        <Button m={2} p={2} colorScheme="linkedin" onClick={canvasClear}>
-                            <Image src={DeleteIcon}></Image>
+                        <Button m={2} p={2} variant='ghost'onClick={canvasClear}>
+                            <Image src={DeleteIcon} />
                         </Button>
                     </Box>
-                    {
-                    selectedObject ? (<ToolbarSelection objectSelected={selectedObject} />) : (<></>)
-                }
+                    {selectedObject && <ToolbarSelection objectSelected={selectedObject} />}
                 </Flex>
-            </Box>
         </>
     );
 }
