@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGetRequest } from "../utils/hooks/useGetRequest.js";
 import DrawItem from "./DrawItem.jsx";
+import { Grid } from '@chakra-ui/react';
 
 const DrawList = () => {
     const { data: canvasList, loadingGet, errorGet } = useGetRequest("http://localhost:3000/canvas");
@@ -18,11 +19,11 @@ const DrawList = () => {
 
     // Render list if data is available
     return (
-        <div>
+        <Grid templateColumns='repeat(4, 1fr)'>
             {canvasList && canvasList.map(draw => (
                 <DrawItem draw={draw} key={draw.id} />
             ))}
-        </div>
+        </Grid>
     );
 };
 

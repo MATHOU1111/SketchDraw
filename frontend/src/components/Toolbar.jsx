@@ -183,7 +183,7 @@ function Toolbar({ canvasRef, selectedObject }) {
 
     return (
         <>
-            <Box name="Barre d'outil" p={4} w={"90%"} m={2} rounded='md' shadow='md'>
+            <Box name="Barre d'outil" p={4} w={"90%"} rounded='md' shadow='md'>
                 <Flex name="menu-top" borderRadius={4} w={"60%"}>
                     <Menu isLazy>
                         <MenuButton name="file-menu" p={2} _hover={{ bg: "#E7E7E7", color: "black" }} color="white">

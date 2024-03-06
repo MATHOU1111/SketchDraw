@@ -27,7 +27,7 @@ const Drawer = () => {
 
     // on récupère les données du canva !
     useEffect(() => {
-        if (data !== null) {
+        if (data) {
             setDataLoaded(true);
             setDrawName(data.name);
             setPages(data.pages);
@@ -81,6 +81,18 @@ const Drawer = () => {
         navigate(`?page=${data.pages[temp - 1].id}`);
     };
 
+    const publish = () => {
+        data.status = "Published"
+        fetchData(data).then(() => {
+            console.log("L'instruction a été publiée");
+        })
+            .catch(error => {
+                console.error("Une erreur s'est produite lors de la publication :", error);
+            });
+        navigate("/");
+    };
+
+
 
     return (
         <>
@@ -104,18 +116,21 @@ const Drawer = () => {
                             )
                         )}
                     </Flex>
-                    <Toolbar canvasRef={canvasRef.canvasRef} selectedObject={canvasRef.selectedObject} />
+                    <Flex>
+                        <Toolbar canvasRef={canvasRef.canvasRef} selectedObject={canvasRef.selectedObject} />
+                        <Button mt={4} onClick={publish}>Publier le dessin</Button>
+                    </Flex>
                     <Flex name="editor">
                         <Box name="pages-section" overflowY="scroll" h="500px">
-                        <Button onClick={addPage}>Ajouter une page</Button>
-                        <Box p={"4"}>
-                            <Input placeholder="Nom de la page" value={pageName} onChange={(event) => setPageName(event.target.value)} onBlur={pageNameChange} />
-                        </Box>
+                            <Button onClick={addPage}>Ajouter une page</Button>
+                            <Box p={"4"}>
+                                <Input placeholder="Nom de la page" value={pageName} onChange={(event) => setPageName(event.target.value)} onBlur={pageNameChange} />
+                            </Box>
                             <PagesList data={pages} />
                         </Box>
-                        <Center name="canvas-container" h="60vh">
-                            <Box direction="column" alignItems="center" border="2px solid" borderColor="grey">
-                                <canvas id="my-unique-canvas" width="900" height="550"></canvas>
+                        <Center name="canvas-container" h={["80vh"]} mb={32}>
+                            <Box direction="column" alignItems="center" p={2} border="2px solid" backgroundColor="#ededed" borderColor="grey">
+                                <canvas id="my-unique-canvas" border="1px" width="1200" height="550"></canvas>
                             </Box>
                         </Center>
                     </Flex>
@@ -123,6 +138,7 @@ const Drawer = () => {
             )}
         </>
     );
-};
+}
+
 
 export default Drawer;

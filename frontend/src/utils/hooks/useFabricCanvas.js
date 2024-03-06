@@ -32,7 +32,7 @@ function useFabricCanvas(dataLoaded, data) {
     useEffect(() => {
         if (canvasRef.current !== undefined && data && data.pages && data.pages[pageNumber]) {
             const canvas = new fabric.Canvas('my-unique-canvas', {
-                backgroundColor: 'white', objects: data.pages[pageNumber], renderOnAddRemove: false, isDrawingMode : false
+                backgroundColor: 'white', objects: data.pages[pageNumber], renderOnAddRemove: false, isDrawingMode: false
             });
 
             canvasRef.current = canvas;
@@ -114,16 +114,59 @@ function useFabricCanvas(dataLoaded, data) {
                 });
 
 
+                // event pour le zoom
                 canvas.on('mouse:wheel', function (opt) {
-                    // console.log(opt)
                     var delta = opt.e.deltaY;
                     var zoom = canvas.getZoom();
                     zoom *= 0.999 ** delta;
                     if (zoom > 20) zoom = 20;
                     if (zoom < 0.01) zoom = 0.01;
-                    canvas.setZoom(zoom);
+
+                    // Coordonnées de la souris sur le canvas
+                    var pointer = canvas.getPointer(opt.e);
+                    var pointerX = pointer.x;
+                    var pointerY = pointer.y;
+
+                    // Ajustements de la position de zoom
+                    var zoomPoint = new fabric.Point(pointerX, pointerY);
+                    canvas.zoomToPoint(zoomPoint, zoom);
+                    canvas.requestRenderAll()
                     opt.e.preventDefault();
                     opt.e.stopPropagation();
+                });
+
+
+                // Event pour déplacer le canvas avec alt 
+                let isDragging = false;
+                let lastPosX = 0;
+                let lastPosY = 0;
+
+                canvas.on('mouse:down', function (opt) {
+                    var evt = opt.e;
+                    if (evt.altKey === true) {
+                        isDragging = true;
+                        canvas.selection = false; 
+                        lastPosX = evt.clientX;
+                        lastPosY = evt.clientY;
+                    }
+                });
+
+                canvas.on('mouse:move', function (opt) {
+                    if (isDragging) {
+                        var e = opt.e;
+                        var vpt = canvas.viewportTransform;
+                        vpt[4] += e.clientX - lastPosX;
+                        vpt[5] += e.clientY - lastPosY;
+                        canvas.requestRenderAll();
+                        lastPosX = e.clientX;
+                        lastPosY = e.clientY;
+                    }
+                });
+
+                canvas.on('mouse:up', function (opt) {
+                    // Réactiver la sélection du canvas après le déplacement
+                    canvas.selection = true;
+                    isDragging = false;
                 });
 
 
