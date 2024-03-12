@@ -1,1 +1,1 @@
-Petit projet sympatoche 
+Petit logiciel de dessin React-FabricJs-ChakraUI
