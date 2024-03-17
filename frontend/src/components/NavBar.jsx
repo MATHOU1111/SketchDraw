@@ -1,19 +1,18 @@
 import React from 'react';
-import {Flex, useColorMode, useColorModeValue, Button, Image} from '@chakra-ui/react';
-import {SunIcon, MoonIcon} from '@chakra-ui/icons';
+import {Flex, Button, Image} from '@chakra-ui/react';
 import {useNavigate, Link} from "react-router-dom";
 
 
 import github from './../assets/github.svg';
 import linkedin from './../assets/linkedin.svg';
+import home from "./../assets/home.svg";
 
 const Navbar = () => {
-    const {colorMode, toggleColorMode} = useColorMode();
     const navigate = useNavigate();
 
     return (
         <Flex as="nav" name="nav-bar" align="center" boxShadow='base' justify="space-between" wrap="wrap" padding="1.1rem"
-              bg={useColorModeValue('gray.500', 'gray.900')} color={useColorModeValue('gray.600', 'white')}>
+              bg={'gray.900'} color={'white'}>
             <Flex>
                 <Flex m={4}>
                     <a href="https://github.com/MATHOU1111">
@@ -28,14 +27,7 @@ const Navbar = () => {
             </Flex>
             <Flex marginRight="8">
                 <Button as={Link} to="/" marginRight="2">
-                    Accueil
-                </Button>
-                <Button onClick={toggleColorMode} mr="8">
-                    {colorMode === 'dark' ? (
-                        <SunIcon boxSize={4}/>
-                    ) : (
-                        <MoonIcon boxSize={4}/>
-                    )}
+                    <Image src={home}/>
                 </Button>
             </Flex>
         </Flex>

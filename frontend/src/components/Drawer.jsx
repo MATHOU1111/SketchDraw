@@ -4,12 +4,11 @@ import {useParams, useNavigate} from 'react-router-dom';
 import {useGetRequest} from "../utils/hooks/useGetRequest.js";
 import usePutRequest from "../utils/hooks/usePutRequest.js";
 import canvasSkeleton from "../utils/data/canvas.js";
-import {Button, Box, Center, Spinner , Input, Flex, Text, Image} from '@chakra-ui/react'
+import {Button, Box, Center, Spinner, Input, Flex, Text, Image} from '@chakra-ui/react'
 import useFabricCanvas from "../utils/hooks/useFabricCanvas.js";
 import PagesList from "./PagesList.jsx";
 import addButton from './../assets/add.svg'
-import { CheckIcon } from '@chakra-ui/icons'
-
+import {CheckIcon} from '@chakra-ui/icons'
 
 
 const Drawer = () => {
@@ -99,11 +98,11 @@ const Drawer = () => {
                         </Box>
                         {(loadingPut || canvasRef.loadingPut) ? (
                             <>
-                                    <Text mt={6}>Enregistrement des changements ...</Text>
+                                <Text mt={6}>Enregistrement des changements ...</Text>
                             </>
                         ) : (
                             (success || canvasRef.success) ? (
-                                <Text mt={6}>Changements sauvegardés <CheckIcon m={2} /></Text>
+                                <Text mt={6}>Changements sauvegardés <CheckIcon m={2}/></Text>
                             ) : (
                                 <Text m={6}></Text>
                             )
@@ -118,10 +117,11 @@ const Drawer = () => {
                         <Box name="pages-section" overflowY="scroll" h="570px">
                             <Box p={"4"}>
                                 <Text> Nom de la page : </Text>
-                                <Input placeholder="Nom de la page"  value={pageName}
+                                <Input placeholder="Nom de la page" value={pageName}
                                        onChange={(event) => setPageName(event.target.value)} onBlur={pageNameChange}/>
                             </Box>
-                            <Button ml={4} pr={10} onClick={addPage}><Image mr={2} src={addButton} />Ajouter une page</Button>
+                            <Button ml={4} pr={10} onClick={addPage}><Image src={addButton}/>Ajouter une
+                                page</Button>
                             <PagesList data={pages}/>
                         </Box>
                         <Center name="canvas-container" mb={32}>
