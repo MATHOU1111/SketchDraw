@@ -5,7 +5,7 @@ import colorIcon from '../assets/color.svg';
 
 function ColorPicker({canvasRef, objectSelected}) {
     const [displayColorPicker, setDisplayColorPicker] = useState(false);
-    const [colorBrush, setColorBrush] = useState("#fff");
+    const [colorBrush, setColorBrush] = useState("black");
     const [colorForm, setColorForm] = useState("#fff")
 
 

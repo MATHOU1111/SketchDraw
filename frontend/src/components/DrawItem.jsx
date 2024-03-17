@@ -27,8 +27,7 @@ const DrawItem = ({ draw }) => {
         <Card maxW='sm' m={4}>
             <CardBody>
                 <Flex>
-                    <Heading size='md'>{draw.name}</Heading>
-                    <Badge m={2} p={2}>{draw.status}</Badge>
+                    <Heading size='md' mb={4}>{draw.name}</Heading>
                 </Flex>
                 <Stack spacing='3' border={"1px"} p={12} backgroundColor={"white"}>
                     <Center>
@@ -39,7 +38,7 @@ const DrawItem = ({ draw }) => {
             </CardBody>
             <Divider />
             <CardFooter>
-                <ButtonGroup spacing='2'>
+                <ButtonGroup>
                     <Button onClick={visualize} variant='solid' colorScheme='blue'>
                         Dessiner
                     </Button>

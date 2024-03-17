@@ -18,6 +18,10 @@ function useFabricCanvas(dataLoaded, data) {
 
     const [pageNumber, setPageNumber] = useState(0);
     const [selectedObject, setSelectedObject] = useState(null);
+    const [canvasReady, setCanvasReady] = useState(false);
+
+
+
 
     // Affichage du canvas dynamiquement
     useEffect(() => {
@@ -169,7 +173,7 @@ function useFabricCanvas(dataLoaded, data) {
                     isDragging = false;
                 });
 
-
+                setCanvasReady(true);
                 canvas.renderAll();
                 canvasRef.current = canvas;
             }
@@ -180,7 +184,7 @@ function useFabricCanvas(dataLoaded, data) {
         }
     }, [dataLoaded, data, pageNumber]);
 
-    return { canvasRef, pageNumber, loadingPut, success, selectedObject };
+    return { canvasRef, pageNumber, loadingPut, success, selectedObject, canvasReady };
 }
 
 export default useFabricCanvas;

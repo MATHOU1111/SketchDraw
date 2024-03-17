@@ -35,7 +35,6 @@ let idSinglePage = generateUniqueRandomId();
 let canvasSkeleton = {
     "id": id,
     "name": "Sans titre",
-    "status" : "Brouillon",
     "pages": [
         {
             "id": idPage,

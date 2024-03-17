@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Toolbar from './Toolbar';
 import {useParams, useNavigate} from 'react-router-dom';
 import {useGetRequest} from "../utils/hooks/useGetRequest.js";
@@ -30,7 +30,7 @@ const Drawer = () => {
 
     // on récupère les données du canva !
     useEffect(() => {
-        if (data) {
+        if (data && canvasRef.canvasReady) {
             setDataLoaded(true);
             setDrawName(data.name);
             setPages(data.pages);
@@ -82,17 +82,6 @@ const Drawer = () => {
             });
         let temp = data.pages.length;
         navigate(`?page=${data.pages[temp - 1].id}`);
-    };
-
-    const publish = () => {
-        data.status = "Published"
-        fetchData(data).then(() => {
-            console.log("L'instruction a été publiée");
-        })
-            .catch(error => {
-                console.error("Une erreur s'est produite lors de la publication :", error);
-            });
-        navigate("/");
     };
 
 

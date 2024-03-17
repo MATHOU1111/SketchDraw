@@ -203,13 +203,13 @@ function Toolbar({ canvasRef, selectedObject }) {
                             </MenuButton>
                             <MenuList>
                                 <MenuItem onClick={addSquare}>Square</MenuItem>
-                                <MenuItem onClick={addCircle} colorScheme="linkedin">
+                                <MenuItem onClick={addCircle} >
                                     Circle
                                 </MenuItem>
-                                <MenuItem onClick={addTriangle} colorScheme="linkedin">
+                                <MenuItem onClick={addTriangle} >
                                     Triangle
                                 </MenuItem>
-                                <MenuItem onClick={addTextToC} colorScheme="linkedin">
+                                <MenuItem onClick={addTextToC} >
                                     Text area
                                 </MenuItem>
                             </MenuList>

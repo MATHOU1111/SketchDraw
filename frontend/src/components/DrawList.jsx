@@ -3,7 +3,7 @@ import { useGetRequest } from "../utils/hooks/useGetRequest.js";
 import DrawItem from "./DrawItem.jsx";
 import { Grid } from '@chakra-ui/react';
 
-const DrawList = () => {
+const DrawList = ({listType}) => {
     const { data: canvasList, loadingGet, errorGet } = useGetRequest("http://localhost:3000/canvas");
 
 

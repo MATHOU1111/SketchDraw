@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Navbar from './../components/NavBar.jsx';
 import { usePostCanva } from "../utils/hooks/useNewCanva.js";
@@ -10,6 +10,8 @@ function Home() {
 
     const { dataPost, loadingPost, errorPost, postData } = usePostCanva("http://localhost:3000/canvas");
     const navigate = useNavigate();
+    const [listType , setListType] = useState("grid");
+
 
     const newCanvas = async () => {
         try {
@@ -22,10 +24,22 @@ function Home() {
         }
     };
 
+    const listModeSwitch = async () =>{
+        if(listType === "grid"){
+            setListType("small");
+            console.log(listType)
+        }
+        else{
+            setListType("grid");
+            console.log(listType)
+        }
+    }
+
     return (
         <div>
             <Navbar />
             <Button m={4} onClick={newCanvas}>Nouveau</Button>
+            <Button m={4} onClick={listModeSwitch} >List</Button>
             <DrawList />
         </div>
     );
