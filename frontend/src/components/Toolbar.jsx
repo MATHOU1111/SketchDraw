@@ -35,12 +35,7 @@ import ToolbarSelection from "./ToolBarSelection.jsx";
 function Toolbar({ canvasRef, selectedObject }) {
     const [drawingState, setDrawingState] = useState(false);
     const [sizePaint, setSizePaint] = useState(1);
-
-
-
-
     const canvas = canvasRef.current
-
 
     function SliderSize() {
         return (

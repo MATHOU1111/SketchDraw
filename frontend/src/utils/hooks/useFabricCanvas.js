@@ -11,7 +11,7 @@ function useFabricCanvas(dataLoaded, data) {
     const idPage = searchParams.get('page');
 
     // hook
-    const { loadingPut, error, success, fetchData } = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
+    const { loadingPut, success, fetchData } = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
 
     // Référence du canvas, important pour l'utilisation de la toolbar
     const canvasRef = useRef(null);
@@ -19,8 +19,6 @@ function useFabricCanvas(dataLoaded, data) {
     const [pageNumber, setPageNumber] = useState(0);
     const [selectedObject, setSelectedObject] = useState(null);
     const [canvasReady, setCanvasReady] = useState(false);
-
-
 
 
     // Affichage du canvas dynamiquement
@@ -36,7 +34,7 @@ function useFabricCanvas(dataLoaded, data) {
     useEffect(() => {
         if (canvasRef.current !== undefined && data && data.pages && data.pages[pageNumber]) {
             const canvas = new fabric.Canvas('my-unique-canvas', {
-                backgroundColor: 'white', objects: data.pages[pageNumber], renderOnAddRemove: false, isDrawingMode: false
+                backgroundColor: 'white', objects: data.pages[pageNumber],isDrawingMode: false
             });
 
             canvasRef.current = canvas;
@@ -95,28 +93,24 @@ function useFabricCanvas(dataLoaded, data) {
 
                 canvas.on('object:added', function (e) {
                     sendData(e);
-                });
+                }); 
 
                 canvas.on('object:removed', function (e) {
                     sendData(e);
                 });
 
                 canvas.on('selection:updated', function (e) {
-                    console.log("lol")
                     console.log(e.selected[0])
                     setSelectedObject(e.selected[0]);
                 });
 
                 canvas.on('selection:created', function (e) {
-                    console.log("lol")
-                    console.log(e.selected[0])
                     setSelectedObject(e.selected[0]);
                 });
 
                 canvas.on('selection:cleared', () => {
                     setSelectedObject(null);
                 });
-
 
                 // event pour le zoom
                 canvas.on('mouse:wheel', function (opt) {
@@ -138,7 +132,6 @@ function useFabricCanvas(dataLoaded, data) {
                     opt.e.preventDefault();
                     opt.e.stopPropagation();
                 });
-
 
                 // Event pour déplacer le canvas avec alt 
                 let isDragging = false;
@@ -175,7 +168,6 @@ function useFabricCanvas(dataLoaded, data) {
 
                 setCanvasReady(true);
                 canvas.renderAll();
-                canvasRef.current = canvas;
             }
 
             return () => {

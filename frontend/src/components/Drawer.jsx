@@ -16,26 +16,28 @@ const Drawer = () => {
     const navigate = useNavigate();
     const {idCanvas} = useParams();
     const [dataLoaded, setDataLoaded] = useState(false);
-    const {data, loading} = useGetRequest(`http://localhost:3000/canvas/${idCanvas}`);
+    const {data} = useGetRequest(`http://localhost:3000/canvas/${idCanvas}`);
     const canvasRef = useFabricCanvas(dataLoaded, data);
 
     const {loadingPut, success, fetchData} = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
 
     // Les différents states
     const [pages, setPages] = useState([]);
-
     const [drawName, setDrawName] = useState("");
     const [pageName, setPageName] = useState("");
+    const [canvaState, setCanvasTate] = useState(true)
 
+    
     // on récupère les données du canva !
     useEffect(() => {
-        if (data && canvasRef.canvasReady) {
+        if (data && canvasRef.canvasReady === true) {
             setDataLoaded(true);
             setDrawName(data.name);
             setPages(data.pages);
             setPageName(data.pages[canvasRef.pageNumber].name);
+            setCanvasTate(false);
         }
-    }, [canvasRef.pageNumber, data]);
+    }, [ canvasRef.canvasReady, data ]);
 
 
     const drawerNameChange = (event) => {
@@ -79,14 +81,14 @@ const Drawer = () => {
             .catch(error => {
                 console.error("Une erreur s'est produite lors de la requête :", error);
             });
-        let temp = data.pages.length;
+        const temp = data.pages.length;
         navigate(`?page=${data.pages[temp - 1].id}`);
     };
 
 
     return (
         <>
-            {loading ? (
+            {canvaState ? (
                 <Center h="80vh">
                     <Spinner size="xl"/>
                 </Center>
