@@ -41,5 +41,5 @@ export function usePostCanva(url) {
         }
     };
 
-    return { data, error, loading, postData };
+    return { loading,error, postData };
 }

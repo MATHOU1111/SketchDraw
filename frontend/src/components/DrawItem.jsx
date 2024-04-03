@@ -1,25 +1,16 @@
 import React from 'react';
-import {
-    Card,
-    CardBody,
-    Stack,
-    Heading,
-    Divider,
-    CardFooter,
-    ButtonGroup,
-    Button,
-    Image,
-    Center,
-    Flex,
-    Box, VStack, Icon
-} from "@chakra-ui/react";
-import {useNavigate} from "react-router-dom";
-import {useDeleteRequest} from "../utils/hooks/useDeleteRequest.js";
+import { Card, CardBody, Stack, Heading, Divider, CardFooter, ButtonGroup, Button, Image, Center, Flex, Box, VStack, Icon } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { useDeleteRequest } from "../utils/hooks/useDeleteRequest.js";
 import pencil from './../assets/pencil.jpg'
+import { useDuplicate } from "../utils/hooks/useDuplicate.js";
 
-const DrawItem = ({draw, listType}) => {
+const DrawItem = ({ draw, listType }) => {
     const navigate = useNavigate();
-    const {deleteData} = useDeleteRequest();
+    const { deleteData } = useDeleteRequest();
+
+    // Move the hook usage inside the component
+    const { loadingDuplication, errorDuplication, data, duplication } = useDuplicate(`http://localhost:3000/canvas`);
 
     const visualize = () => {
         navigate(`editor/${draw.id}/?page=${draw.pages[0].id}`);
@@ -35,6 +26,17 @@ const DrawItem = ({draw, listType}) => {
             });
     };
 
+    const duplicate = async (id) => {
+        try {
+            const response = await duplication(draw.id);
+            if (response.id) {
+                navigate(`editor/${response.id}/?page=${response.pages[0].id}`);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la duplication du canevas :', error);
+        }
+    }
+
     if (listType === "grid") {
         return (
             <Card maxW='sm' m={4}>
@@ -48,15 +50,12 @@ const DrawItem = ({draw, listType}) => {
                         </Center>
                     </Stack>
                 </CardBody>
-                <Divider/>
+                <Divider />
                 <CardFooter>
                     <ButtonGroup>
-                        <Button onClick={visualize} variant='solid' colorScheme='blue'>
-                            Dessiner
-                        </Button>
-                        <Button onClick={deleteCanva} variant='solid' colorScheme='red'>
-                            Supprimer
-                        </Button>
+                        <Button onClick={visualize} variant='solid' colorScheme='blue'>Dessiner</Button>
+                        <Button onClick={deleteCanva} variant='solid' colorScheme='red'>Supprimer</Button>
+                        <Button onClick={duplicate} variant='solid' colorScheme='red'>Dupliquer</Button>
                     </ButtonGroup>
                 </CardFooter>
             </Card>
@@ -64,12 +63,12 @@ const DrawItem = ({draw, listType}) => {
     } else {
         return (
             <Box w={"3/4"} p={2} overflow="hidden">
-                <Flex align="center" _hover={{ bg:'gray.600', cursor: 'pointer' }} borderRadius="md" boxShadow="base" bg={"#2d3748"} p={2}>
+                <Flex align="center" _hover={{ bg: 'gray.600', cursor: 'pointer' }} borderRadius="md" boxShadow="base" bg={"#2d3748"} p={4}>
+                    <Image borderRadius={4} w={16} m={2} src={pencil}></Image>
                     <Heading fontSize="xl" fontWeight="bold" flex={1}>{draw.name}</Heading>
-                    <Button onClick={visualize} colorScheme="blue" size="md" leftIcon={<Icon/>} mr={2}>Edit</Button>
-                    <Button onClick={deleteCanva} colorScheme="red" size="md" leftIcon={<Icon/>}>
-                        Delete
-                    </Button>
+                    <Button onClick={visualize} colorScheme="blue" size="md" mr={2}>Edit</Button>
+                    <Button onClick={deleteCanva} colorScheme="red" size="md" mr={2}>Delete</Button>
+                    <Button onClick={duplicate} variant='solid' colorScheme='green' mr={2}>Dupliquer</Button>
                 </Flex>
             </Box>
         );

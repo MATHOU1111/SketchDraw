@@ -38,6 +38,7 @@ function Home() {
         }
     }
 
+
     return (
         <div>
             <Navbar/>
