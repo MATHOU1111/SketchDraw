@@ -10,7 +10,7 @@ import {
     MenuList,
     MenuItem
 } from "@chakra-ui/react";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DeleteIcon from './../assets/delete.svg';
 import DrawIcon from './../assets/draw.svg';
 import brush from './../assets/paint.svg';
@@ -185,9 +185,6 @@ function Toolbar({ canvasRef, selectedObject }) {
                             Fichier
                         </MenuButton>
                         <MenuList>
-                            <MenuItem>New Window</MenuItem>
-                            <MenuItem>Open Closed Tab</MenuItem>
-                            <MenuItem>Open File</MenuItem>
                             <MenuItem onClick={downloadCanva}>Download</MenuItem>
                         </MenuList>
                     </Menu>

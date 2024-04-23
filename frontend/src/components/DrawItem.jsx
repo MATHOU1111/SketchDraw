@@ -3,14 +3,10 @@ import { Card, CardBody, Stack, Heading, Divider, CardFooter, ButtonGroup, Butto
 import { useNavigate } from "react-router-dom";
 import { useDeleteRequest } from "../utils/hooks/useDeleteRequest.js";
 import pencil from './../assets/pencil.jpg'
-import { useDuplicate } from "../utils/hooks/useDuplicate.js";
 
-const DrawItem = ({ draw, listType }) => {
+const DrawItem = ({ canvasList, draw, listType, setCanvasListState }) => {
     const navigate = useNavigate();
     const { deleteData } = useDeleteRequest();
-
-    // Move the hook usage inside the component
-    const { loadingDuplication, errorDuplication, data, duplication } = useDuplicate(`http://localhost:3000/canvas`);
 
     const visualize = () => {
         navigate(`editor/${draw.id}/?page=${draw.pages[0].id}`);
@@ -19,24 +15,16 @@ const DrawItem = ({ draw, listType }) => {
     const deleteCanva = () => {
         deleteData(`http://localhost:3000/canvas/${draw.id}`)
             .then(() => {
-                console.log("L'item a bien été supprimé");
+                console.log(canvasList)
+                const updatedCanvasList = canvasList.filter(d => d.id !== draw.id);
+                setCanvasListState([...updatedCanvasList]);
             })
             .catch(error => {
                 console.error("Une erreur s'est produite lors de la requête :", error);
             });
     };
 
-    const duplicate = async (id) => {
-        try {
-            const response = await duplication(draw.id);
-            if (response.id) {
-                navigate(`editor/${response.id}/?page=${response.pages[0].id}`);
-            }
-        } catch (error) {
-            console.error('Erreur lors de la duplication du canevas :', error);
-        }
-    }
-
+    
     if (listType === "grid") {
         return (
             <Card maxW='sm' m={4}>
@@ -52,11 +40,10 @@ const DrawItem = ({ draw, listType }) => {
                 </CardBody>
                 <Divider />
                 <CardFooter>
-                    <ButtonGroup>
-                        <Button onClick={visualize} variant='solid' colorScheme='blue'>Dessiner</Button>
-                        <Button onClick={deleteCanva} variant='solid' colorScheme='red'>Supprimer</Button>
-                        <Button onClick={duplicate} variant='solid' colorScheme='red'>Dupliquer</Button>
-                    </ButtonGroup>
+                <ButtonGroup display="flex" justifyContent="space-between" width="100%">
+                    <Button onClick={visualize} variant='solid' colorScheme='blue'>Dessiner</Button>
+                    <Button onClick={deleteCanva} variant='solid' colorScheme='red'>Supprimer</Button>
+                </ButtonGroup>
                 </CardFooter>
             </Card>
         )
@@ -66,9 +53,8 @@ const DrawItem = ({ draw, listType }) => {
                 <Flex align="center" _hover={{ bg: 'gray.600', cursor: 'pointer' }} borderRadius="md" boxShadow="base" bg={"#2d3748"} p={4}>
                     <Image borderRadius={4} w={16} m={2} src={pencil}></Image>
                     <Heading fontSize="xl" fontWeight="bold" flex={1}>{draw.name}</Heading>
-                    <Button onClick={visualize} colorScheme="blue" size="md" mr={2}>Edit</Button>
-                    <Button onClick={deleteCanva} colorScheme="red" size="md" mr={2}>Delete</Button>
-                    <Button onClick={duplicate} variant='solid' colorScheme='green' mr={2}>Dupliquer</Button>
+                    <Button onClick={visualize} colorScheme="blue" size="md" mr={2}>Dessiner</Button>
+                    <Button onClick={deleteCanva} colorScheme="red" size="md" mr={2}>Supprimer</Button>
                 </Flex>
             </Box>
         );

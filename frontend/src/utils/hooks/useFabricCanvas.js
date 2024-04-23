@@ -3,7 +3,7 @@ import usePutRequest from "./usePutRequest.js";
 import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 
-function useFabricCanvas(dataLoaded, data) {
+function useFabricCanvas(data) {
     // Récupération des Ids de l'URL
     const { idCanvas } = useParams();
     const location = useLocation();
@@ -23,13 +23,13 @@ function useFabricCanvas(dataLoaded, data) {
 
     // Affichage du canvas dynamiquement
     useEffect(() => {
-        if (dataLoaded && data && canvasRef.current !== undefined) {
+        if (data && canvasRef.current !== undefined) {
             const index = data.pages.findIndex(page => page.id === idPage);
             if (index !== -1) {
                 setPageNumber(index);
             }
         }
-    }, [dataLoaded, data, idPage]);
+    }, [ data, idPage]);
 
     useEffect(() => {
         if (canvasRef.current !== undefined && data && data.pages && data.pages[pageNumber]) {
@@ -171,10 +171,10 @@ function useFabricCanvas(dataLoaded, data) {
             }
 
             return () => {
-                canvas.dispose(); // Nettoie et supprime l'instance du canvas
+                canvas.dispose();
             };
         }
-    }, [dataLoaded, data, pageNumber]);
+    }, [data, pageNumber]);
 
     return { canvasRef, pageNumber, loadingPut, success, selectedObject, canvasReady };
 }

@@ -9,7 +9,7 @@ import useFabricCanvas from "../utils/hooks/useFabricCanvas.js";
 import PagesList from "./PagesList.jsx";
 import addButton from './../assets/add.svg'
 import {CheckIcon} from '@chakra-ui/icons'
-
+import { useCustomToast } from "../utils/hooks/toast.js";
 
 const Drawer = () => {
     // differentes importations de hooks etc
@@ -17,7 +17,8 @@ const Drawer = () => {
     const {idCanvas} = useParams();
     const [dataLoaded, setDataLoaded] = useState(false);
     const {data} = useGetRequest(`http://localhost:3000/canvas/${idCanvas}`);
-    const canvasRef = useFabricCanvas(dataLoaded, data);
+    const canvasRef = useFabricCanvas(data);
+    const { showToast } = useCustomToast();
 
     const {loadingPut, success, fetchData} = usePutRequest(`http://localhost:3000/canvas/${idCanvas}`);
 
@@ -25,7 +26,7 @@ const Drawer = () => {
     const [pages, setPages] = useState([]);
     const [drawName, setDrawName] = useState("");
     const [pageName, setPageName] = useState("");
-    const [canvaState, setCanvasTate] = useState(true)
+    const [canvaState, setCanvasTate] = useState(false)
 
     
     // on récupère les données du canva !
@@ -40,6 +41,7 @@ const Drawer = () => {
     }, [ canvasRef.canvasReady, data ]);
 
 
+    // on change le nom du canva
     const drawerNameChange = (event) => {
         if (event.target.value !== data.name) {
             data.name = event.target.value;
@@ -50,6 +52,7 @@ const Drawer = () => {
                 })
                 .catch(error => {
                     console.error("Une erreur s'est produite lors de la requête :", error);
+                    showToast("Une erreur s'est produite lors du changement de nom !", 2000, true, 'error')
                 });
         }
     }
@@ -65,12 +68,14 @@ const Drawer = () => {
                     console.log("Le nom a bien été changé.");
                 })
                 .catch(error => {
+                    showToast("Une erreur s'est produite lors du changement de nom !", 2000, true, 'error')
                     console.error("Une erreur s'est produite lors de la requête :", error);
                 });
         }
     }
 
 
+    // Ajout de la page
     const addPage = () => {
         data.pages.push(canvasSkeleton.pageSkeleton);
         fetchData(data)
@@ -79,6 +84,7 @@ const Drawer = () => {
                 setPages(data.pages);
             })
             .catch(error => {
+                showToast("Une erreur s'est produite lors l'ajout d'une page !", 2000, true, 'error')
                 console.error("Une erreur s'est produite lors de la requête :", error);
             });
         const temp = data.pages.length;

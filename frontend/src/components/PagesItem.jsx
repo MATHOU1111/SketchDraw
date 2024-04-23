@@ -4,19 +4,13 @@ import {Button, Card, CardHeader} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { DeleteIcon } from "@chakra-ui/icons";
 
-const PagesItem = ({ pages, index, id, isSelected, switchPage }) => {
+const PagesItem = ({ pages, index, id, isSelected, switchPage, deletePage }) => {
     const navigate = useNavigate();
 
     const switchPageHandler = (id) => {
         switchPage(id);
         navigate(`?page=${id}`);
     };
-
-
-    const deletePage = (id) =>{
-        console.log(id)
-    }
-
 
 
     return (
